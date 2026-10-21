@@ -1,0 +1,24 @@
+arm,class,group,precision,recall,mAP50,mAP50_95
+v13_small_100ep_s1_1024_W2,bean_angular_leaf_spot,B_lesion,0.8142,0.7309,0.8287,0.5404
+v13_small_100ep_s1_1024_W2,bean_bean_rust,B_lesion,0.8934,0.9317,0.9708,0.7798
+v13_small_100ep_s1_1024_W2,bean_healthy,A_whole_leaf,0.9255,1.0,0.995,0.8899
+v13_small_100ep_s1_1024_W2,cauliflower_bacterial_spot_rot,A_whole_leaf,1.0,0.961,0.995,0.6645
+v13_small_100ep_s1_1024_W2,cauliflower_black_rot,A_whole_leaf,0.7416,0.7857,0.8482,0.4316
+v13_small_100ep_s1_1024_W2,cauliflower_downy_mildew,A_whole_leaf,0.9862,0.8974,0.9414,0.6743
+v13_small_100ep_s1_1024_W2,cauliflower_no_disease,A_whole_leaf,0.9871,0.9737,0.9902,0.7639
+v13_small_100ep_s1_1024_W2,chilli_Curling-Leafs,A_whole_leaf,1.0,0.9241,0.995,0.7118
+v13_small_100ep_s1_1024_W2,chilli_Healthy-Leafs,A_whole_leaf,0.9607,1.0,0.995,0.8114
+v13_small_100ep_s1_1024_W2,chilli_Leaf Spot-Leafs,A_whole_leaf,0.7168,1.0,0.995,0.7038
+v13_small_100ep_s1_1024_W2,chilli_Leveillula taurica-Leafs,A_whole_leaf,0.9087,1.0,0.995,0.6645
+v13_small_100ep_s1_1024_W2,chilli_Mozaik Leaf,A_whole_leaf,0.9641,1.0,0.995,0.7834
+v13_small_100ep_s1_1024_W2,cucumber_Antraknosa,B_lesion,0.6473,0.6754,0.6652,0.5042
+v13_small_100ep_s1_1024_W2,cucumber_Bacterial Wilt,B_lesion,0.6842,0.6625,0.7093,0.5015
+v13_small_100ep_s1_1024_W2,cucumber_Downy Mildew,A_whole_leaf,0.754,0.7074,0.7235,0.557
+v13_small_100ep_s1_1024_W2,potato_healthy,B_lesion,0.9457,0.9583,0.9694,0.8922
+v13_small_100ep_s1_1024_W2,potato_blackleg,B_lesion,0.4362,0.3686,0.3601,0.1691
+v13_small_100ep_s1_1024_W2,potato_late_blight,B_lesion,0.7904,0.564,0.6478,0.5066
+v13_small_100ep_s1_1024_W2,potato_early_blight,B_lesion,0.6354,0.6887,0.6891,0.5108
+v13_small_100ep_s1_1024_W2,tomato_bacterial_spot,A_whole_leaf,0.9967,0.9964,0.995,0.8214
+v13_small_100ep_s1_1024_W2,tomato_curl_virus,A_whole_leaf,0.9874,0.9834,0.9947,0.7969
+v13_small_100ep_s1_1024_W2,tomato_two_spotted_spider_mite,A_whole_leaf,0.9866,1.0,0.9941,0.7213
+v13_small_100ep_s1_1024_W2,ALL,ALL,0.8528,0.855,0.8769,0.6546

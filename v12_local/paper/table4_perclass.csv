@@ -1,0 +1,23 @@
+class,group,baseline,+P2 head,+P2+WIoU,+UADH,n @1024,s @1024
+chilli_Leveillula taurica-Leafs,A_whole_leaf,0.98,0.913,0.924,0.995,0.995,0.995
+tomato_bacterial_spot,A_whole_leaf,0.994,0.994,0.994,0.995,0.994,0.995
+potato_healthy,A_whole_leaf,0.963,0.966,0.965,0.975,0.971,0.972
+cucumber_Downy Mildew,A_whole_leaf,0.762,0.623,0.675,0.727,0.735,0.729
+chilli_Mozaik Leaf,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995
+tomato_curl_virus,A_whole_leaf,0.995,0.995,0.995,0.994,0.994,0.995
+chilli_Leaf Spot-Leafs,A_whole_leaf,0.829,0.995,0.825,0.895,0.845,0.945
+chilli_Healthy-Leafs,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995
+tomato_two_spotted_spider_mite,A_whole_leaf,0.994,0.994,0.994,0.994,0.989,0.994
+cauliflower_no_disease,A_whole_leaf,0.991,0.975,0.989,0.975,0.994,0.993
+cauliflower_downy_mildew,A_whole_leaf,0.934,0.86,0.833,0.903,0.913,0.943
+cauliflower_black_rot,A_whole_leaf,0.837,0.545,0.641,0.779,0.877,0.878
+cauliflower_bacterial_spot_rot,A_whole_leaf,0.97,0.987,0.981,0.985,0.995,0.995
+bean_healthy,A_whole_leaf,0.995,0.984,0.973,0.995,0.995,0.995
+chilli_Curling-Leafs,A_whole_leaf,0.937,0.937,0.944,0.995,0.964,0.902
+cucumber_Antraknosa,B_lesion,0.705,0.567,0.592,0.662,0.686,0.7
+cucumber_Bacterial Wilt,B_lesion,0.726,0.576,0.598,0.702,0.705,0.715
+potato_blackleg,B_lesion,0.317,0.119,0.106,0.242,0.399,0.365
+potato_late_blight,B_lesion,0.647,0.558,0.536,0.613,0.647,0.645
+potato_early_blight,B_lesion,0.666,0.501,0.455,0.665,0.707,0.704
+bean_bean_rust,B_lesion,0.925,0.748,0.72,0.874,0.943,0.94
+bean_angular_leaf_spot,B_lesion,0.875,0.594,0.538,0.832,0.892,0.851

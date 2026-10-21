@@ -1,0 +1,63 @@
+v10 inventory: 22000 images
+hashing...
+  0/22000
+  2000/22000
+  4000/22000
+  6000/22000
+  8000/22000
+  10000/22000
+  12000/22000
+  14000/22000
+  16000/22000
+  18000/22000
+  20000/22000
+hashed ok: 22000
+near-dup scan...
+  2000/17975
+  4000/17975
+  6000/17975
+  8000/17975
+  10000/17975
+  12000/17975
+  14000/17975
+  16000/17975
+unique groups: 17136  (from 22000 images)
+
+representatives kept : 17136
+images dropped       : 4864
+duplicate groups with CONFLICTING labels: 1735
+
+--- v12 split sizes ---
+  train   11993 images   19805 boxes
+  valid    3428 images    5846 boxes
+  test     1715 images    2879 boxes
+
+class                              tr_box va_box te_box  train% tr_img
+--------------------------------------------------------------------------
+bean_angular_leaf_spot                 58     13      8   73.4%     30
+bean_bean_rust                         53     18      7   67.9%     32
+bean_healthy                           32      9      4   71.1%     31
+cauliflower_bacterial_spot_rot        115     33     17   69.7%    115
+cauliflower_black_rot                  55     19     11   64.7%     50
+cauliflower_downy_mildew              121     36     18   69.1%    113
+cauliflower_no_disease                138     38     18   71.1%    130
+chilli_Curling-Leafs                   45     13      6   70.3%     45
+chilli_Healthy-Leafs                   56     16      8   70.0%     56
+chilli_Leaf Spot-Leafs                 45     13      6   70.3%     45
+chilli_Leveillula taurica-Leafs        48     14      7   69.6%     48
+chilli_Mozaik Leaf                     67     19     10   69.8%     67
+cucumber_Antraknosa                  2445    734    339   69.5%   1140
+cucumber_Bacterial Wilt              5078   1511    763   69.1%   1022
+cucumber_Downy Mildew                1066    297    144   70.7%    770
+potato_healthy                        597    174     84   69.8%    548
+potato_blackleg                       962    274    135   70.2%    133
+potato_late_blight                   1032    285    157   70.0%    616
+potato_early_blight                   977    385    162   64.1%    243
+tomato_bacterial_spot                2269    647    325   70.0%   2264
+tomato_curl_virus                    2288    653    327   70.0%   2268
+tomato_two_spotted_spider_mite       2258    645    323   70.0%   2258
+
+total boxes: 28530
+imbalance ratio: 163.4x  (v10 was 91.2x)
+
+WROTE f:\0BScDefense\05_Datasets\merged-dataset-v12

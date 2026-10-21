@@ -1,0 +1,71 @@
+{
+ "baseline": {
+  "raw": {
+   "ALL": 0.01883661253049773,
+   "A": 0.0209627214164676,
+   "B": -0.018852298368860487,
+   "recall": 0.02490161427155846,
+   "mAP50_95": 0.06066077452050467
+  },
+  "per_class": {
+   "potato_early_blight": -0.22559370732332018,
+   "potato_blackleg": -0.10081947576758299,
+   "cucumber_Antraknosa": -0.012306577686009956,
+   "cucumber_Downy Mildew": -0.010322934577119858,
+   "tomato_bacterial_spot": -7.002801120448154e-05,
+   "chilli_Mozaik Leaf": 0.0,
+   "tomato_curl_virus": 0.0003577111772032904,
+   "tomato_two_spotted_spider_mite": 0.004422222222222216,
+   "cucumber_Bacterial Wilt": 0.010714674390744472,
+   "potato_healthy": 0.10396206481882042,
+   "potato_late_blight": 0.27050057874046674
+  },
+  "per_class_mean": 0.0037131389076563337
+ },
+ "s@1024": {
+  "raw": {
+   "ALL": 0.04304965016211526,
+   "A": 0.029105265561621074,
+   "B": 0.044901602347347525,
+   "recall": 0.039815408379658246,
+   "mAP50_95": 0.06938164848171591
+  },
+  "per_class": {
+   "potato_early_blight": -0.12736542265810247,
+   "chilli_Mozaik Leaf": 0.0,
+   "tomato_two_spotted_spider_mite": 0.0,
+   "tomato_bacterial_spot": 0.0,
+   "tomato_curl_virus": 0.00048148148148152714,
+   "cucumber_Downy Mildew": 0.006813840284010997,
+   "cucumber_Bacterial Wilt": 0.04912309986801544,
+   "potato_blackleg": 0.05200770189773796,
+   "cucumber_Antraknosa": 0.0537003427570113,
+   "potato_healthy": 0.08675964822123583,
+   "potato_late_blight": 0.3110795224403522
+  },
+  "per_class_mean": 0.039327292208340255
+ },
+ "s@1024+TTA": {
+  "raw": {
+   "ALL": 0.04256233665305775,
+   "A": 0.026124908981862927,
+   "B": 0.04872736064909,
+   "recall": 0.04163807902833727,
+   "mAP50_95": 0.07058396402581213
+  },
+  "per_class": {
+   "potato_early_blight": -0.12283283041086634,
+   "chilli_Mozaik Leaf": 0.0,
+   "tomato_two_spotted_spider_mite": 0.0,
+   "tomato_bacterial_spot": 0.0,
+   "tomato_curl_virus": 0.000306194847435437,
+   "cucumber_Downy Mildew": 0.0018775643172301848,
+   "potato_blackleg": 0.016521142930171706,
+   "cucumber_Antraknosa": 0.04068261717562649,
+   "cucumber_Bacterial Wilt": 0.05996836265789174,
+   "potato_healthy": 0.0962026186790842,
+   "potato_late_blight": 0.30565415218803615
+  },
+  "per_class_mean": 0.03621634748950996
+ }
+}

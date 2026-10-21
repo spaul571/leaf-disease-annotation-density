@@ -1,0 +1,262 @@
+{
+  "dataset": "merged-dataset-v13",
+  "images": 8785,
+  "candidate_pairs": 0,
+  "confirmed_pairs": 0,
+  "hamming_max": 3,
+  "mad_max": 12.0,
+  "ncc_min": 0.95,
+  "twin_groups": 0,
+  "images_in_twin_groups": 0,
+  "groups_spanning_splits": 0,
+  "lenient": {
+    "twin_groups": 0,
+    "images_in_twin_groups": 0,
+    "groups_spanning_splits": 0
+  },
+  "transform_counts": {},
+  "per_split": {
+    "valid": {
+      "images": 1758,
+      "with_train_twin": 0,
+      "with_train_twin_lenient": 0,
+      "by_crop": {
+        "Bean": [
+          0,
+          27
+        ],
+        "Cauliflower": [
+          0,
+          111
+        ],
+        "Chilli": [
+          0,
+          45
+        ],
+        "Cucumber": [
+          0,
+          413
+        ],
+        "Potato": [
+          0,
+          264
+        ],
+        "Tomato": [
+          0,
+          898
+        ]
+      },
+      "by_class": {
+        "bean_angular_leaf_spot": [
+          0,
+          9
+        ],
+        "bean_bean_rust": [
+          0,
+          9
+        ],
+        "bean_healthy": [
+          0,
+          9
+        ],
+        "cauliflower_bacterial_spot_rot": [
+          0,
+          32
+        ],
+        "cauliflower_black_rot": [
+          0,
+          10
+        ],
+        "cauliflower_downy_mildew": [
+          0,
+          32
+        ],
+        "cauliflower_no_disease": [
+          0,
+          37
+        ],
+        "chilli_Curling-Leafs": [
+          0,
+          7
+        ],
+        "chilli_Healthy-Leafs": [
+          0,
+          13
+        ],
+        "chilli_Leaf Spot-Leafs": [
+          0,
+          4
+        ],
+        "chilli_Leveillula taurica-Leafs": [
+          0,
+          6
+        ],
+        "chilli_Mozaik Leaf": [
+          0,
+          15
+        ],
+        "cucumber_Antraknosa": [
+          0,
+          158
+        ],
+        "cucumber_Bacterial Wilt": [
+          0,
+          146
+        ],
+        "cucumber_Downy Mildew": [
+          0,
+          109
+        ],
+        "potato_blackleg": [
+          0,
+          25
+        ],
+        "potato_early_blight": [
+          0,
+          51
+        ],
+        "potato_healthy": [
+          0,
+          92
+        ],
+        "potato_late_blight": [
+          0,
+          96
+        ],
+        "tomato_bacterial_spot": [
+          0,
+          299
+        ],
+        "tomato_curl_virus": [
+          0,
+          300
+        ],
+        "tomato_two_spotted_spider_mite": [
+          0,
+          299
+        ]
+      }
+    },
+    "test": {
+      "images": 879,
+      "with_train_twin": 0,
+      "with_train_twin_lenient": 0,
+      "by_crop": {
+        "Bean": [
+          0,
+          13
+        ],
+        "Cauliflower": [
+          0,
+          55
+        ],
+        "Chilli": [
+          0,
+          22
+        ],
+        "Cucumber": [
+          0,
+          207
+        ],
+        "Potato": [
+          0,
+          132
+        ],
+        "Tomato": [
+          0,
+          450
+        ]
+      },
+      "by_class": {
+        "bean_angular_leaf_spot": [
+          0,
+          4
+        ],
+        "bean_bean_rust": [
+          0,
+          5
+        ],
+        "bean_healthy": [
+          0,
+          4
+        ],
+        "cauliflower_bacterial_spot_rot": [
+          0,
+          17
+        ],
+        "cauliflower_black_rot": [
+          0,
+          5
+        ],
+        "cauliflower_downy_mildew": [
+          0,
+          15
+        ],
+        "cauliflower_no_disease": [
+          0,
+          18
+        ],
+        "chilli_Curling-Leafs": [
+          0,
+          3
+        ],
+        "chilli_Healthy-Leafs": [
+          0,
+          6
+        ],
+        "chilli_Leaf Spot-Leafs": [
+          0,
+          3
+        ],
+        "chilli_Leveillula taurica-Leafs": [
+          0,
+          3
+        ],
+        "chilli_Mozaik Leaf": [
+          0,
+          7
+        ],
+        "cucumber_Antraknosa": [
+          0,
+          79
+        ],
+        "cucumber_Bacterial Wilt": [
+          0,
+          74
+        ],
+        "cucumber_Downy Mildew": [
+          0,
+          54
+        ],
+        "potato_blackleg": [
+          0,
+          13
+        ],
+        "potato_early_blight": [
+          0,
+          25
+        ],
+        "potato_healthy": [
+          0,
+          46
+        ],
+        "potato_late_blight": [
+          0,
+          48
+        ],
+        "tomato_bacterial_spot": [
+          0,
+          150
+        ],
+        "tomato_curl_virus": [
+          0,
+          150
+        ],
+        "tomato_two_spotted_spider_mite": [
+          0,
+          150
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,653 @@
+{
+  "dataset": "v12",
+  "R1_1_confounds": {
+    "univariate": {
+      "boxes_per_img": {
+        "pearson_r": -0.9211,
+        "pearson_p": 1.2182565066016772e-09,
+        "spearman_r": -0.9213,
+        "spearman_p": 1.1843255996292281e-09
+      },
+      "median_area": {
+        "pearson_r": 0.7013,
+        "pearson_p": 0.00027675182489297033,
+        "spearman_r": 0.6737,
+        "spearman_p": 0.0005879196459781355
+      },
+      "log_n_boxes": {
+        "pearson_r": -0.3523,
+        "pearson_p": 0.10785776750210385,
+        "spearman_r": -0.3898,
+        "spearman_p": 0.07294047745829634
+      },
+      "mixed_frac": {
+        "pearson_r": -0.1917,
+        "pearson_p": 0.39286655497104944,
+        "spearman_r": -0.6634,
+        "spearman_p": 0.0007630690614760013
+      }
+    },
+    "partial": {
+      "control_median_area": {
+        "r": -0.84,
+        "p": 1.905093590953434e-06,
+        "df": 19
+      },
+      "control_log_n_boxes": {
+        "r": -0.911,
+        "p": 9.620489439563627e-09,
+        "df": 19
+      },
+      "control_both": {
+        "r": -0.8399,
+        "p": 3.607969336597367e-06,
+        "df": 18
+      }
+    },
+    "multiple_regression": {
+      "n": 22,
+      "r2": 0.8534,
+      "adj_r2": 0.829,
+      "f_p": 1.023860078539245e-07,
+      "coef": {
+        "const": {
+          "beta": 1.00463,
+          "se": 0.076,
+          "t": 13.219,
+          "p": 1.0470111631655898e-10
+        },
+        "boxes_per_img": {
+          "beta": -0.08749,
+          "se": 0.01332,
+          "t": -6.566,
+          "p": 3.6079693365973926e-06
+        },
+        "median_area": {
+          "beta": 0.0308,
+          "se": 0.05699,
+          "t": 0.54,
+          "p": 0.5954902467672133
+        },
+        "log_n_boxes": {
+          "beta": 0.01308,
+          "se": 0.02122,
+          "t": 0.616,
+          "p": 0.5453231112640268
+        }
+      },
+      "vif": {
+        "boxes_per_img": 2.29,
+        "median_area": 2.14,
+        "log_n_boxes": 1.24
+      }
+    },
+    "crop_fixed_effects": {
+      "beta": -0.0787,
+      "se": 0.01161,
+      "p": 6.197452793736653e-06,
+      "r2": 0.8789,
+      "df_resid": 15
+    },
+    "mixed_model": {
+      "beta": -0.08995,
+      "se": 0.01498,
+      "p": 1.930300377135269e-09,
+      "group_var": 0.0,
+      "converged": true,
+      "n_groups": 6
+    },
+    "per_crop_spearman": {
+      "bean": {
+        "n": 3,
+        "spearman_r": -0.5,
+        "p": 0.6666666666666666
+      },
+      "cauliflower": {
+        "n": 4,
+        "spearman_r": -1.0,
+        "p": 0.0
+      },
+      "chilli": {
+        "n": 5,
+        "spearman_r": NaN,
+        "p": NaN
+      },
+      "cucumber": {
+        "n": 3,
+        "spearman_r": -1.0,
+        "p": 0.0
+      },
+      "potato": {
+        "n": 4,
+        "spearman_r": -1.0,
+        "p": 0.0
+      },
+      "tomato": {
+        "n": 3,
+        "spearman_r": 1.0,
+        "p": 0.0
+      }
+    },
+    "per_class": [
+      {
+        "class": "potato_late_blight",
+        "group": "B_lesion",
+        "crop": "potato",
+        "boxes_per_img": 1.68,
+        "median_area": 0.0583,
+        "n_boxes": 1474,
+        "mAP50": 0.8258
+      },
+      {
+        "class": "cucumber_Antraknosa",
+        "group": "B_lesion",
+        "crop": "cucumber",
+        "boxes_per_img": 2.16,
+        "median_area": 0.0493,
+        "n_boxes": 3518,
+        "mAP50": 0.8311
+      },
+      {
+        "class": "cucumber_Downy Mildew",
+        "group": "A_whole_leaf",
+        "crop": "cucumber",
+        "boxes_per_img": 1.37,
+        "median_area": 0.9844,
+        "n_boxes": 1507,
+        "mAP50": 0.8427
+      },
+      {
+        "class": "bean_angular_leaf_spot",
+        "group": "B_lesion",
+        "crop": "bean",
+        "boxes_per_img": 1.84,
+        "median_area": 0.26,
+        "n_boxes": 79,
+        "mAP50": 0.9013
+      },
+      {
+        "class": "cucumber_Bacterial Wilt",
+        "group": "B_lesion",
+        "crop": "cucumber",
+        "boxes_per_img": 5.04,
+        "median_area": 0.1332,
+        "n_boxes": 7352,
+        "mAP50": 0.7914
+      },
+      {
+        "class": "potato_healthy",
+        "group": "A_whole_leaf",
+        "crop": "potato",
+        "boxes_per_img": 1.09,
+        "median_area": 0.7132,
+        "n_boxes": 855,
+        "mAP50": 0.9692
+      },
+      {
+        "class": "bean_bean_rust",
+        "group": "B_lesion",
+        "crop": "bean",
+        "boxes_per_img": 1.7,
+        "median_area": 0.2147,
+        "n_boxes": 78,
+        "mAP50": 0.9167
+      },
+      {
+        "class": "cauliflower_black_rot",
+        "group": "A_whole_leaf",
+        "crop": "cauliflower",
+        "boxes_per_img": 1.18,
+        "median_area": 0.7523,
+        "n_boxes": 85,
+        "mAP50": 0.8729
+      },
+      {
+        "class": "cauliflower_no_disease",
+        "group": "A_whole_leaf",
+        "crop": "cauliflower",
+        "boxes_per_img": 1.05,
+        "median_area": 1.0,
+        "n_boxes": 194,
+        "mAP50": 0.9927
+      },
+      {
+        "class": "potato_early_blight",
+        "group": "B_lesion",
+        "crop": "potato",
+        "boxes_per_img": 4.39,
+        "median_area": 0.0123,
+        "n_boxes": 1524,
+        "mAP50": 0.6938
+      },
+      {
+        "class": "cauliflower_downy_mildew",
+        "group": "A_whole_leaf",
+        "crop": "cauliflower",
+        "boxes_per_img": 1.08,
+        "median_area": 0.8875,
+        "n_boxes": 175,
+        "mAP50": 0.983
+      },
+      {
+        "class": "bean_healthy",
+        "group": "A_whole_leaf",
+        "crop": "bean",
+        "boxes_per_img": 1.02,
+        "median_area": 0.6926,
+        "n_boxes": 45,
+        "mAP50": 0.913
+      },
+      {
+        "class": "cauliflower_bacterial_spot_rot",
+        "group": "A_whole_leaf",
+        "crop": "cauliflower",
+        "boxes_per_img": 1.0,
+        "median_area": 0.8716,
+        "n_boxes": 165,
+        "mAP50": 0.995
+      },
+      {
+        "class": "chilli_Curling-Leafs",
+        "group": "A_whole_leaf",
+        "crop": "chilli",
+        "boxes_per_img": 1.0,
+        "median_area": 0.7357,
+        "n_boxes": 64,
+        "mAP50": 0.995
+      },
+      {
+        "class": "chilli_Healthy-Leafs",
+        "group": "A_whole_leaf",
+        "crop": "chilli",
+        "boxes_per_img": 1.0,
+        "median_area": 0.9231,
+        "n_boxes": 80,
+        "mAP50": 0.995
+      },
+      {
+        "class": "chilli_Leaf Spot-Leafs",
+        "group": "A_whole_leaf",
+        "crop": "chilli",
+        "boxes_per_img": 1.0,
+        "median_area": 0.8439,
+        "n_boxes": 64,
+        "mAP50": 0.995
+      },
+      {
+        "class": "chilli_Leveillula taurica-Leafs",
+        "group": "A_whole_leaf",
+        "crop": "chilli",
+        "boxes_per_img": 1.0,
+        "median_area": 0.8815,
+        "n_boxes": 69,
+        "mAP50": 0.9831
+      },
+      {
+        "class": "chilli_Mozaik Leaf",
+        "group": "A_whole_leaf",
+        "crop": "chilli",
+        "boxes_per_img": 1.0,
+        "median_area": 0.9218,
+        "n_boxes": 96,
+        "mAP50": 0.995
+      },
+      {
+        "class": "potato_blackleg",
+        "group": "B_lesion",
+        "crop": "potato",
+        "boxes_per_img": 7.22,
+        "median_area": 0.0078,
+        "n_boxes": 1371,
+        "mAP50": 0.3013
+      },
+      {
+        "class": "tomato_bacterial_spot",
+        "group": "A_whole_leaf",
+        "crop": "tomato",
+        "boxes_per_img": 1.0,
+        "median_area": 0.923,
+        "n_boxes": 3241,
+        "mAP50": 0.9948
+      },
+      {
+        "class": "tomato_curl_virus",
+        "group": "A_whole_leaf",
+        "crop": "tomato",
+        "boxes_per_img": 1.01,
+        "median_area": 0.8393,
+        "n_boxes": 3268,
+        "mAP50": 0.995
+      },
+      {
+        "class": "tomato_two_spotted_spider_mite",
+        "group": "A_whole_leaf",
+        "crop": "tomato",
+        "boxes_per_img": 1.0,
+        "median_area": 0.7556,
+        "n_boxes": 3226,
+        "mAP50": 0.9948
+      }
+    ]
+  },
+  "R1_2_seeds_and_intervals": {
+    "val_per_seed": {
+      "0": {
+        "ALL": 0.8978,
+        "A": 0.9657733333333333,
+        "B": 0.7522142857142857,
+        "recall": 0.8598,
+        "mAP50_95": 0.7297
+      },
+      "1": {
+        "ALL": 0.9006,
+        "A": 0.9688133333333333,
+        "B": 0.7543571428571428,
+        "recall": 0.8557,
+        "mAP50_95": 0.737
+      },
+      "2": {
+        "ALL": 0.8985,
+        "A": 0.9686533333333334,
+        "B": 0.7482857142857143,
+        "recall": 0.8572,
+        "mAP50_95": 0.7398
+      }
+    },
+    "val_summary": {
+      "ALL": {
+        "mean": 0.8989666666666666,
+        "sd": 0.0014571661996262567
+      },
+      "A": {
+        "mean": 0.9677466666666668,
+        "sd": 0.0017108282594502212
+      },
+      "B": {
+        "mean": 0.7516190476190476,
+        "sd": 0.0030791707515184347
+      },
+      "recall": {
+        "mean": 0.8575666666666667,
+        "sd": 0.002074447717666882
+      },
+      "mAP50_95": {
+        "mean": 0.7355,
+        "sd": 0.005214403129793471
+      }
+    },
+    "test_per_seed": {
+      "baseline": [
+        {
+          "seed": 0,
+          "ALL": 0.8847542864053604,
+          "A": 0.968982395465195,
+          "B": 0.7042654812771426,
+          "recall": 0.8605059261039428,
+          "mAP50_95": 0.7252591462464721
+        },
+        {
+          "seed": 1,
+          "ALL": 0.898467969162195,
+          "A": 0.9715144240968336,
+          "B": 0.741939851445111,
+          "recall": 0.8560880676373805,
+          "mAP50_95": 0.7314505251504986
+        },
+        {
+          "seed": 2,
+          "ALL": 0.8884544906536164,
+          "A": 0.9662171010784937,
+          "B": 0.7218203254574498,
+          "recall": 0.8470730334737421,
+          "mAP50_95": 0.7216747060639749
+        }
+      ],
+      "s@1024": [
+        {
+          "seed": 0,
+          "ALL": 0.9012226882030625,
+          "A": 0.9573929978347819,
+          "B": 0.7808577389922347,
+          "recall": 0.8603549854092261,
+          "mAP50_95": 0.6920472823020282
+        },
+        {
+          "seed": 1,
+          "ALL": 0.9016580950509888,
+          "A": 0.9676764154020073,
+          "B": 0.7601902657273766,
+          "recall": 0.8707199643196158,
+          "mAP50_95": 0.6964042245680423
+        },
+        {
+          "seed": 2,
+          "ALL": 0.8997037289990154,
+          "A": 0.96408062946922,
+          "B": 0.7617532279914333,
+          "recall": 0.8824398336420131,
+          "mAP50_95": 0.6904141212596769
+        }
+      ],
+      "s@1024+TTA": [
+        {
+          "seed": 0,
+          "ALL": 0.9033032391270325,
+          "A": 0.9622098794336225,
+          "B": 0.7770747241843393,
+          "recall": 0.8552177114729221,
+          "mAP50_95": 0.7590197181674493
+        },
+        {
+          "seed": 1,
+          "ALL": 0.9030196265697914,
+          "A": 0.9681496771098196,
+          "B": 0.7634552325554445,
+          "recall": 0.8829830042866539,
+          "mAP50_95": 0.7591781283949857
+        },
+        {
+          "seed": 2,
+          "ALL": 0.8994904037022248,
+          "A": 0.9685736831041586,
+          "B": 0.7514548049837948,
+          "recall": 0.8713550489924482,
+          "mAP50_95": 0.7570425980646827
+        }
+      ]
+    },
+    "test_ci": {
+      "s@1024": {
+        "ALL": {
+          "delta": 0.010302588677298385,
+          "ci95": [
+            -0.006837872741632972,
+            0.027443050096229743
+          ],
+          "welch_df": 2.083616563019165,
+          "t_crit": 4.141349765563597,
+          "p": 0.12553569265676556,
+          "excludes_zero": false
+        },
+        "A": {
+          "delta": -0.005854625978170991,
+          "ci95": [
+            -0.0166765882559735,
+            0.0049673362996315185
+          ],
+          "welch_df": 2.9668244416659686,
+          "t_crit": 3.2026734697363115,
+          "p": 0.18260650196501768,
+          "excludes_zero": false
+        },
+        "B": {
+          "delta": 0.04492519151044705,
+          "ci95": [
+            0.006404286928727632,
+            0.08344609609216647
+          ],
+          "welch_df": 3.3087916068934984,
+          "t_crit": 3.020849624710901,
+          "p": 0.033203070711558376,
+          "excludes_zero": true
+        },
+        "recall": {
+          "delta": 0.016615918718596467,
+          "ci95": [
+            -0.005954423806414172,
+            0.03918626124360711
+          ],
+          "welch_df": 3.3384009682419866,
+          "t_crit": 3.0075088919142234,
+          "p": 0.10459081652202136,
+          "excludes_zero": false
+        },
+        "mAP50_95": {
+          "delta": -0.03317291644373277,
+          "ci95": [
+            -0.04327363183991511,
+            -0.02307220104755043
+          ],
+          "welch_df": 3.3592566309908563,
+          "t_crit": 2.9983061179639905,
+          "p": 0.0013609021586742534,
+          "excludes_zero": true
+        }
+      },
+      "s@1024+TTA": {
+        "ALL": {
+          "delta": 0.01137884105929221,
+          "ci95": [
+            -0.004597169801151442,
+            0.027354851919735863
+          ],
+          "welch_df": 2.35570080205688,
+          "t_crit": 3.7362911381836312,
+          "p": 0.09853348288186295,
+          "excludes_zero": false
+        },
+        "A": {
+          "delta": -0.0025935603309737987,
+          "ci95": [
+            -0.009941049629534644,
+            0.004753928967587045
+          ],
+          "welch_df": 3.6964142820396537,
+          "t_crit": 2.868729278316753,
+          "p": 0.37286168315580914,
+          "excludes_zero": false
+        },
+        "B": {
+          "delta": 0.04131970118129169,
+          "ci95": [
+            0.002743560157713959,
+            0.07989584220486942
+          ],
+          "welch_df": 3.5236856470416895,
+          "t_crit": 2.930910479276416,
+          "p": 0.0415008341502396,
+          "excludes_zero": true
+        },
+        "recall": {
+          "delta": 0.015296245845652923,
+          "ci95": [
+            -0.013743013868664715,
+            0.04433550555997056
+          ],
+          "welch_df": 2.9113606126168645,
+          "t_crit": 3.237969064883835,
+          "p": 0.18940311595045273,
+          "excludes_zero": false
+        },
+        "mAP50_95": {
+          "delta": 0.032285355722057374,
+          "ci95": [
+            0.020823043162042483,
+            0.043747668282072265
+          ],
+          "welch_df": 2.2307688857245513,
+          "t_crit": 3.90304025866048,
+          "p": 0.005492398567018456,
+          "excludes_zero": true
+        }
+      }
+    },
+    "holm_adjusted_p": {
+      "s@1024": {
+        "ALL": 0.3137724495660641,
+        "A": 0.3137724495660641,
+        "B": 0.1328122828462335,
+        "recall": 0.3137724495660641,
+        "mAP50_95": 0.006804510793371267
+      },
+      "s@1024+TTA": {
+        "ALL": 0.2956004486455889,
+        "A": 0.37880623190090545,
+        "B": 0.1660033366009584,
+        "recall": 0.37880623190090545,
+        "mAP50_95": 0.02746199283509228
+      }
+    },
+    "note": "n=3 per arm; a single-arm 95% interval uses t(2)=4.303, so intervals are wide by construction. The CI is on the difference of means (Welch)."
+  },
+  "R1_3_worker_control_v12": {
+    "dataset": "v12",
+    "rule": "1.96 * sd_pooled * sqrt(2/3)",
+    "comparison": [
+      {
+        "metric": "ALL",
+        "workers=8": 0.8989666666666666,
+        "sd8": 0.0014571661996262567,
+        "workers=2": 0.8982333333333333,
+        "sd2": 0.003768730997740903,
+        "delta": -0.0007333333333332526,
+        "bar": 0.004572399904742423,
+        "ratio": 0.16038258870853586,
+        "welch_p": 0.7768790283105677
+      },
+      {
+        "metric": "A",
+        "workers=8": 0.9677466666666668,
+        "sd8": 0.0017108282594502212,
+        "workers=2": 0.9660866666666666,
+        "sd2": 0.002765172287178058,
+        "delta": -0.0016600000000001058,
+        "bar": 0.0036795680744911735,
+        "ratio": 0.451139907291879,
+        "welch_p": 0.4356750994996515
+      },
+      {
+        "metric": "B",
+        "workers=8": 0.7516190476190476,
+        "sd8": 0.0030791707515184347,
+        "workers=2": 0.752842857142857,
+        "sd2": 0.009903277132302435,
+        "delta": 0.0012238095238094049,
+        "bar": 0.011735812162398976,
+        "ratio": 0.10427991747605134,
+        "welch_p": 0.8542116709148193
+      },
+      {
+        "metric": "recall",
+        "workers=8": 0.8575666666666667,
+        "sd8": 0.002074447717666882,
+        "workers=2": 0.8623,
+        "sd2": 0.017407182425654064,
+        "delta": 0.004733333333333256,
+        "bar": 0.01983746372677492,
+        "ratio": 0.23860577130858746,
+        "welch_p": 0.684907595965729
+      },
+      {
+        "metric": "mAP50_95",
+        "workers=8": 0.7355,
+        "sd8": 0.005214403129793471,
+        "workers=2": 0.7292333333333333,
+        "sd2": 0.0045181116999619825,
+        "delta": -0.006266666666666754,
+        "bar": 0.007807538351561974,
+        "ratio": 0.8026430847327245,
+        "welch_p": 0.19221228862444012
+      }
+    ]
+  }
+}

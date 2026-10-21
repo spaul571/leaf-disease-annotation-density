@@ -1,0 +1,24 @@
+arm,class,group,precision,recall,mAP50,mAP50_95
+v13_baseline_100ep_s0_1024_W2,bean_angular_leaf_spot,B_lesion,0.8981,0.7222,0.8925,0.5858
+v13_baseline_100ep_s0_1024_W2,bean_bean_rust,B_lesion,0.9332,0.7764,0.9426,0.7173
+v13_baseline_100ep_s0_1024_W2,bean_healthy,A_whole_leaf,0.9648,1.0,0.995,0.8356
+v13_baseline_100ep_s0_1024_W2,cauliflower_bacterial_spot_rot,A_whole_leaf,1.0,0.9849,0.995,0.7018
+v13_baseline_100ep_s0_1024_W2,cauliflower_black_rot,A_whole_leaf,0.8495,0.8571,0.8767,0.4515
+v13_baseline_100ep_s0_1024_W2,cauliflower_downy_mildew,A_whole_leaf,0.9469,0.8462,0.9127,0.6405
+v13_baseline_100ep_s0_1024_W2,cauliflower_no_disease,A_whole_leaf,0.9705,1.0,0.9945,0.7862
+v13_baseline_100ep_s0_1024_W2,chilli_Curling-Leafs,A_whole_leaf,1.0,0.782,0.9639,0.7473
+v13_baseline_100ep_s0_1024_W2,chilli_Healthy-Leafs,A_whole_leaf,0.9722,1.0,0.995,0.8276
+v13_baseline_100ep_s0_1024_W2,chilli_Leaf Spot-Leafs,A_whole_leaf,0.7667,1.0,0.845,0.5282
+v13_baseline_100ep_s0_1024_W2,chilli_Leveillula taurica-Leafs,A_whole_leaf,1.0,0.9024,0.995,0.568
+v13_baseline_100ep_s0_1024_W2,chilli_Mozaik Leaf,A_whole_leaf,0.9282,1.0,0.995,0.8037
+v13_baseline_100ep_s0_1024_W2,cucumber_Antraknosa,B_lesion,0.7453,0.6667,0.6855,0.5256
+v13_baseline_100ep_s0_1024_W2,cucumber_Bacterial Wilt,B_lesion,0.6942,0.6606,0.7048,0.5097
+v13_baseline_100ep_s0_1024_W2,cucumber_Downy Mildew,A_whole_leaf,0.7574,0.7273,0.7349,0.5716
+v13_baseline_100ep_s0_1024_W2,potato_healthy,B_lesion,0.9636,0.9479,0.971,0.8995
+v13_baseline_100ep_s0_1024_W2,potato_blackleg,B_lesion,0.5674,0.3235,0.3993,0.1658
+v13_baseline_100ep_s0_1024_W2,potato_late_blight,B_lesion,0.7705,0.564,0.6468,0.5187
+v13_baseline_100ep_s0_1024_W2,potato_early_blight,B_lesion,0.6575,0.6981,0.7074,0.5173
+v13_baseline_100ep_s0_1024_W2,tomato_bacterial_spot,A_whole_leaf,0.9907,1.0,0.9943,0.8226
+v13_baseline_100ep_s0_1024_W2,tomato_curl_virus,A_whole_leaf,0.9966,0.9745,0.9945,0.8121
+v13_baseline_100ep_s0_1024_W2,tomato_two_spotted_spider_mite,A_whole_leaf,0.9877,0.9967,0.9894,0.7446
+v13_baseline_100ep_s0_1024_W2,ALL,ALL,0.88,0.8377,0.8741,0.6491

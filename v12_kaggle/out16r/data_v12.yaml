@@ -1,0 +1,28 @@
+path: /kaggle/input/datasets/shrikanta571/merged-dataset-v12
+train: images/train
+val: images/valid
+test: images/test
+nc: 22
+names:
+- bean_angular_leaf_spot
+- bean_bean_rust
+- bean_healthy
+- cauliflower_bacterial_spot_rot
+- cauliflower_black_rot
+- cauliflower_downy_mildew
+- cauliflower_no_disease
+- chilli_Curling-Leafs
+- chilli_Healthy-Leafs
+- chilli_Leaf Spot-Leafs
+- chilli_Leveillula taurica-Leafs
+- chilli_Mozaik Leaf
+- cucumber_Antraknosa
+- cucumber_Bacterial Wilt
+- cucumber_Downy Mildew
+- potato_healthy
+- potato_blackleg
+- potato_late_blight
+- potato_early_blight
+- tomato_bacterial_spot
+- tomato_curl_virus
+- tomato_two_spotted_spider_mite

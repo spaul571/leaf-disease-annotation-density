@@ -1,0 +1,24 @@
+arm,class,group,precision,recall,mAP50,mAP50_95
+local_baseline_100ep_s1_W2,bean_angular_leaf_spot,B_lesion,0.7727,0.9231,0.9371,0.7144
+local_baseline_100ep_s1_W2,bean_bean_rust,B_lesion,0.7119,0.8333,0.9017,0.711
+local_baseline_100ep_s1_W2,bean_healthy,A_whole_leaf,0.8484,0.8889,0.9675,0.7982
+local_baseline_100ep_s1_W2,cauliflower_bacterial_spot_rot,A_whole_leaf,0.9703,0.9917,0.9897,0.7309
+local_baseline_100ep_s1_W2,cauliflower_black_rot,A_whole_leaf,0.8822,0.7884,0.8703,0.5584
+local_baseline_100ep_s1_W2,cauliflower_downy_mildew,A_whole_leaf,0.9462,0.9777,0.9893,0.8191
+local_baseline_100ep_s1_W2,cauliflower_no_disease,A_whole_leaf,0.9594,0.9737,0.9923,0.9696
+local_baseline_100ep_s1_W2,chilli_Curling-Leafs,A_whole_leaf,0.9786,1.0,0.995,0.7851
+local_baseline_100ep_s1_W2,chilli_Healthy-Leafs,A_whole_leaf,0.9708,1.0,0.995,0.8666
+local_baseline_100ep_s1_W2,chilli_Leaf Spot-Leafs,A_whole_leaf,0.9677,1.0,0.995,0.7946
+local_baseline_100ep_s1_W2,chilli_Leveillula taurica-Leafs,A_whole_leaf,0.7888,0.8571,0.8687,0.6288
+local_baseline_100ep_s1_W2,chilli_Mozaik Leaf,A_whole_leaf,0.9754,1.0,0.995,0.8188
+local_baseline_100ep_s1_W2,cucumber_Antraknosa,B_lesion,0.7764,0.7371,0.8252,0.7143
+local_baseline_100ep_s1_W2,cucumber_Bacterial Wilt,B_lesion,0.772,0.6949,0.7866,0.6177
+local_baseline_100ep_s1_W2,cucumber_Downy Mildew,A_whole_leaf,0.8271,0.7407,0.8336,0.7808
+local_baseline_100ep_s1_W2,potato_healthy,B_lesion,0.9515,0.9425,0.9704,0.9335
+local_baseline_100ep_s1_W2,potato_blackleg,B_lesion,0.6652,0.0943,0.2744,0.1238
+local_baseline_100ep_s1_W2,potato_late_blight,B_lesion,0.9054,0.6715,0.8149,0.6642
+local_baseline_100ep_s1_W2,potato_early_blight,B_lesion,0.7485,0.5948,0.6966,0.4727
+local_baseline_100ep_s1_W2,tomato_bacterial_spot,A_whole_leaf,0.9939,1.0,0.9948,0.8933
+local_baseline_100ep_s1_W2,tomato_curl_virus,A_whole_leaf,0.9954,0.9901,0.9948,0.8653
+local_baseline_100ep_s1_W2,tomato_two_spotted_spider_mite,A_whole_leaf,0.9976,0.9984,0.9949,0.792
+local_baseline_100ep_s1_W2,ALL,ALL,0.8821,0.8499,0.8947,0.7297

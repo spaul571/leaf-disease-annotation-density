@@ -1,0 +1,24 @@
+arm,class,group,precision,recall,mAP50,mAP50_95
+local_baseline_100ep_s2_W2,bean_angular_leaf_spot,B_lesion,0.6539,0.8462,0.8639,0.606
+local_baseline_100ep_s2_W2,bean_bean_rust,B_lesion,0.7277,0.8889,0.9513,0.7422
+local_baseline_100ep_s2_W2,bean_healthy,A_whole_leaf,0.9098,0.7778,0.973,0.8093
+local_baseline_100ep_s2_W2,cauliflower_bacterial_spot_rot,A_whole_leaf,0.9584,1.0,0.995,0.7824
+local_baseline_100ep_s2_W2,cauliflower_black_rot,A_whole_leaf,0.9279,0.7895,0.8755,0.5267
+local_baseline_100ep_s2_W2,cauliflower_downy_mildew,A_whole_leaf,0.9427,0.9144,0.9775,0.7225
+local_baseline_100ep_s2_W2,cauliflower_no_disease,A_whole_leaf,0.9602,0.9737,0.9825,0.9691
+local_baseline_100ep_s2_W2,chilli_Curling-Leafs,A_whole_leaf,0.9673,1.0,0.995,0.7842
+local_baseline_100ep_s2_W2,chilli_Healthy-Leafs,A_whole_leaf,0.9693,1.0,0.995,0.8617
+local_baseline_100ep_s2_W2,chilli_Leaf Spot-Leafs,A_whole_leaf,0.956,1.0,0.995,0.7348
+local_baseline_100ep_s2_W2,chilli_Leveillula taurica-Leafs,A_whole_leaf,0.8745,0.9961,0.96,0.7085
+local_baseline_100ep_s2_W2,chilli_Mozaik Leaf,A_whole_leaf,0.9732,1.0,0.995,0.8285
+local_baseline_100ep_s2_W2,cucumber_Antraknosa,B_lesion,0.761,0.7698,0.8285,0.7177
+local_baseline_100ep_s2_W2,cucumber_Bacterial Wilt,B_lesion,0.7585,0.732,0.7961,0.6256
+local_baseline_100ep_s2_W2,cucumber_Downy Mildew,A_whole_leaf,0.7824,0.7845,0.8407,0.7937
+local_baseline_100ep_s2_W2,potato_healthy,B_lesion,0.9477,0.9371,0.9595,0.9212
+local_baseline_100ep_s2_W2,potato_blackleg,B_lesion,0.6759,0.1218,0.283,0.135
+local_baseline_100ep_s2_W2,potato_late_blight,B_lesion,0.8815,0.6528,0.8122,0.6511
+local_baseline_100ep_s2_W2,potato_early_blight,B_lesion,0.7398,0.6278,0.6886,0.473
+local_baseline_100ep_s2_W2,tomato_bacterial_spot,A_whole_leaf,0.9976,1.0,0.995,0.8885
+local_baseline_100ep_s2_W2,tomato_curl_virus,A_whole_leaf,0.9977,0.9954,0.995,0.8657
+local_baseline_100ep_s2_W2,tomato_two_spotted_spider_mite,A_whole_leaf,0.9978,0.9984,0.9943,0.7907
+local_baseline_100ep_s2_W2,ALL,ALL,0.88,0.8548,0.8978,0.7245

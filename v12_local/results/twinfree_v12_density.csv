@@ -1,0 +1,5 @@
+subset,classes,pearson_r,p,spearman_rho,p_spearman,dropped_thin_classes
+valid_full,22,-0.9211742375275254,1.2037753694520534e-09,-0.9273437333992128,5.469125882198387e-10,[]
+valid_twinfree,19,-0.8722105061537264,1.129779744217072e-06,-0.9117419428272224,5.5845392575952256e-08,"['chilli_Curling-Leafs', 'chilli_Leaf Spot-Leafs', 'chilli_Leveillula taurica-Leafs']"
+test_full,21,-0.8511346247207398,1.0034257162451226e-06,-0.9220702651108612,2.854293441753804e-09,['bean_healthy']
+test_twinfree,19,-0.7342754704065553,0.000344168916660161,-0.8678571428571429,1.4789523303157394e-06,"['bean_healthy', 'chilli_Leaf Spot-Leafs', 'chilli_Leveillula taurica-Leafs']"

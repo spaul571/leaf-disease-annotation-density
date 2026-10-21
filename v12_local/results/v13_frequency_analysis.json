@@ -1,0 +1,476 @@
+{
+  "dataset": "v13",
+  "box_imbalance": 161.4,
+  "train_image_imbalance": 70.0,
+  "lesion_boxes": {
+    "train": 5931,
+    "valid": 1678,
+    "test": 897
+  },
+  "lesion_test_boxes_per_class": {
+    "bean_angular_leaf_spot": 6,
+    "bean_bean_rust": 7,
+    "cucumber_Antraknosa": 183,
+    "cucumber_Bacterial Wilt": 371,
+    "potato_blackleg": 94,
+    "potato_late_blight": 99,
+    "potato_early_blight": 137
+  },
+  "classes_with_fewer_train_images_than_potato_blackleg": {
+    "n": 9,
+    "train_images_range": [
+      15,
+      52
+    ],
+    "map50_range": [
+      0.829,
+      0.995
+    ]
+  },
+  "frequency_vs_map50": {
+    "pearson": -0.414,
+    "p": 0.0557,
+    "spearman": -0.301,
+    "p_s": 0.173
+  },
+  "unstable_classes": {
+    "bean_angular_leaf_spot": {
+      "swing": 0.0577,
+      "val_boxes": 18,
+      "density": 1.84
+    },
+    "bean_bean_rust": {
+      "swing": 0.0538,
+      "val_boxes": 18,
+      "density": 1.7
+    },
+    "cauliflower_bacterial_spot_rot": {
+      "swing": 0.042,
+      "val_boxes": 32,
+      "density": 1.0
+    },
+    "cauliflower_black_rot": {
+      "swing": 0.0851,
+      "val_boxes": 14,
+      "density": 1.25
+    },
+    "cauliflower_downy_mildew": {
+      "swing": 0.0488,
+      "val_boxes": 39,
+      "density": 1.08
+    },
+    "chilli_Curling-Leafs": {
+      "swing": 0.1225,
+      "val_boxes": 7,
+      "density": 1.0
+    },
+    "chilli_Leaf Spot-Leafs": {
+      "swing": 0.049,
+      "val_boxes": 4,
+      "density": 1.0
+    },
+    "chilli_Leveillula taurica-Leafs": {
+      "swing": 0.0229,
+      "val_boxes": 6,
+      "density": 1.0
+    },
+    "cucumber_Antraknosa": {
+      "swing": 0.0309,
+      "val_boxes": 375,
+      "density": 2.24
+    },
+    "potato_blackleg": {
+      "swing": 0.0239,
+      "val_boxes": 170,
+      "density": 7.04
+    },
+    "potato_late_blight": {
+      "swing": 0.0307,
+      "val_boxes": 172,
+      "density": 1.89
+    },
+    "potato_early_blight": {
+      "swing": 0.0317,
+      "val_boxes": 212,
+      "density": 4.32
+    }
+  },
+  "swing_vs_log_val_boxes_nonsaturated": {
+    "pearson": -0.636,
+    "p": 0.0108,
+    "spearman": -0.599,
+    "p_s": 0.0184
+  },
+  "swing_vs_density_nonsaturated": {
+    "pearson": -0.373,
+    "p": 0.1712,
+    "spearman": -0.351,
+    "p_s": 0.1991
+  },
+  "n_nonsaturated": 15,
+  "potato_blackleg_seed_range": {
+    "map50": 0.0239,
+    "recall": 0.1647
+  },
+  "swing_by_threshold": {
+    "0.98": {
+      "vs_log_val_boxes": {
+        "pearson": -0.636,
+        "p": 0.0108,
+        "spearman": -0.599,
+        "p_s": 0.0184
+      },
+      "vs_density": {
+        "pearson": -0.373,
+        "p": 0.1712,
+        "spearman": -0.351,
+        "p_s": 0.1991
+      },
+      "n": 15
+    },
+    "0.99": {
+      "vs_log_val_boxes": {
+        "pearson": -0.636,
+        "p": 0.0108,
+        "spearman": -0.599,
+        "p_s": 0.0184
+      },
+      "vs_density": {
+        "pearson": -0.373,
+        "p": 0.1712,
+        "spearman": -0.351,
+        "p_s": 0.1991
+      },
+      "n": 15
+    },
+    "1.01": {
+      "vs_log_val_boxes": {
+        "pearson": -0.445,
+        "p": 0.038,
+        "spearman": -0.263,
+        "p_s": 0.237
+      },
+      "vs_density": {
+        "pearson": -0.064,
+        "p": 0.7778,
+        "spearman": 0.257,
+        "p_s": 0.2491
+      },
+      "n": 22
+    }
+  },
+  "potato_blackleg_seeds_map50": [
+    0.3118,
+    0.307,
+    0.3309
+  ],
+  "potato_blackleg_sd_map50": 0.0126,
+  "env1_v12": {
+    "floored_classes": 14,
+    "cut_classes": 8,
+    "group_bars": {
+      "floored": 0.0083,
+      "not_floored": 0.0042,
+      "lesion": 0.0085,
+      "wholeleaf": 0.0047,
+      "cut": 0.0042
+    },
+    "oversample": {
+      "mean_delta_floored": 0.0108,
+      "mean_delta_not_floored": -0.0059,
+      "mean_delta_cut": -0.0059,
+      "mean_delta_lesion": -0.0026,
+      "mean_delta_wholeleaf": 0.0082,
+      "delta_vs_density": {
+        "pearson": 0.154,
+        "p": 0.4941,
+        "spearman": -0.046,
+        "p_s": 0.8374
+      },
+      "delta_vs_log_frequency": {
+        "pearson": -0.167,
+        "p": 0.4569,
+        "spearman": -0.325,
+        "p_s": 0.1394
+      },
+      "potato_blackleg": {
+        "map50": [
+          0.2621,
+          0.3085
+        ],
+        "recall": [
+          0.1485,
+          0.2847
+        ]
+      },
+      "cut_classes": {
+        "cucumber_Antraknosa": [
+          1140,
+          -0.0155
+        ],
+        "cucumber_Bacterial Wilt": [
+          1022,
+          -0.0238
+        ],
+        "cucumber_Downy Mildew": [
+          770,
+          -0.009
+        ],
+        "potato_healthy": [
+          548,
+          0.0214
+        ],
+        "potato_late_blight": [
+          616,
+          -0.0205
+        ],
+        "tomato_bacterial_spot": [
+          2264,
+          0.0
+        ],
+        "tomato_curl_virus": [
+          2268,
+          0.0001
+        ],
+        "tomato_two_spotted_spider_mite": [
+          2258,
+          0.0
+        ]
+      },
+      "worst5": [
+        [
+          "bean_angular_leaf_spot",
+          -0.0764
+        ],
+        [
+          "cucumber_Bacterial Wilt",
+          -0.0238
+        ],
+        [
+          "potato_late_blight",
+          -0.0205
+        ],
+        [
+          "cucumber_Antraknosa",
+          -0.0155
+        ],
+        [
+          "cauliflower_downy_mildew",
+          -0.0125
+        ]
+      ],
+      "best3": [
+        [
+          "bean_healthy",
+          0.0613
+        ],
+        [
+          "cauliflower_black_rot",
+          0.0555
+        ],
+        [
+          "potato_blackleg",
+          0.0464
+        ]
+      ]
+    },
+    "naive": {
+      "mean_delta_floored": -0.0012,
+      "mean_delta_not_floored": -0.0361,
+      "mean_delta_cut": -0.0361,
+      "mean_delta_lesion": -0.0361,
+      "mean_delta_wholeleaf": -0.0035,
+      "delta_vs_density": {
+        "pearson": -0.13,
+        "p": 0.565,
+        "spearman": -0.346,
+        "p_s": 0.1145
+      },
+      "delta_vs_log_frequency": {
+        "pearson": -0.41,
+        "p": 0.0582,
+        "spearman": -0.37,
+        "p_s": 0.0903
+      },
+      "potato_blackleg": {
+        "map50": [
+          0.2621,
+          0.2905
+        ],
+        "recall": [
+          0.1485,
+          0.3285
+        ]
+      },
+      "cut_classes": {
+        "cucumber_Antraknosa": [
+          1140,
+          -0.0929
+        ],
+        "cucumber_Bacterial Wilt": [
+          1022,
+          -0.0825
+        ],
+        "cucumber_Downy Mildew": [
+          770,
+          -0.0641
+        ],
+        "potato_healthy": [
+          548,
+          0.0095
+        ],
+        "potato_late_blight": [
+          616,
+          -0.0548
+        ],
+        "tomato_bacterial_spot": [
+          2264,
+          -0.001
+        ],
+        "tomato_curl_virus": [
+          2268,
+          -0.0026
+        ],
+        "tomato_two_spotted_spider_mite": [
+          2258,
+          -0.0001
+        ]
+      },
+      "worst5": [
+        [
+          "cucumber_Antraknosa",
+          -0.0929
+        ],
+        [
+          "cucumber_Bacterial Wilt",
+          -0.0825
+        ],
+        [
+          "cucumber_Downy Mildew",
+          -0.0641
+        ],
+        [
+          "potato_late_blight",
+          -0.0548
+        ],
+        [
+          "bean_healthy",
+          -0.0487
+        ]
+      ],
+      "best3": [
+        [
+          "cauliflower_black_rot",
+          0.0473
+        ],
+        [
+          "potato_blackleg",
+          0.0284
+        ],
+        [
+          "potato_healthy",
+          0.0095
+        ]
+      ]
+    },
+    "focal": {
+      "mean_delta_floored": -0.0254,
+      "mean_delta_not_floored": -0.0447,
+      "mean_delta_cut": -0.0447,
+      "mean_delta_lesion": -0.0604,
+      "mean_delta_wholeleaf": -0.0194,
+      "delta_vs_density": {
+        "pearson": -0.379,
+        "p": 0.0824,
+        "spearman": -0.56,
+        "p_s": 0.0067
+      },
+      "delta_vs_log_frequency": {
+        "pearson": -0.331,
+        "p": 0.132,
+        "spearman": -0.37,
+        "p_s": 0.09
+      },
+      "potato_blackleg": {
+        "map50": [
+          0.2621,
+          0.205
+        ],
+        "recall": [
+          0.1485,
+          0.0255
+        ]
+      },
+      "cut_classes": {
+        "cucumber_Antraknosa": [
+          1140,
+          -0.1009
+        ],
+        "cucumber_Bacterial Wilt": [
+          1022,
+          -0.0797
+        ],
+        "cucumber_Downy Mildew": [
+          770,
+          -0.078
+        ],
+        "potato_healthy": [
+          548,
+          0.0012
+        ],
+        "potato_late_blight": [
+          616,
+          -0.099
+        ],
+        "tomato_bacterial_spot": [
+          2264,
+          -0.0007
+        ],
+        "tomato_curl_virus": [
+          2268,
+          -0.0002
+        ],
+        "tomato_two_spotted_spider_mite": [
+          2258,
+          0.0
+        ]
+      },
+      "worst5": [
+        [
+          "cauliflower_black_rot",
+          -0.1053
+        ],
+        [
+          "cucumber_Antraknosa",
+          -0.1009
+        ],
+        [
+          "potato_late_blight",
+          -0.099
+        ],
+        [
+          "bean_angular_leaf_spot",
+          -0.0907
+        ],
+        [
+          "cucumber_Bacterial Wilt",
+          -0.0797
+        ]
+      ],
+      "best3": [
+        [
+          "bean_bean_rust",
+          0.0785
+        ],
+        [
+          "bean_healthy",
+          0.0034
+        ],
+        [
+          "potato_healthy",
+          0.0012
+        ]
+      ]
+    }
+  }
+}

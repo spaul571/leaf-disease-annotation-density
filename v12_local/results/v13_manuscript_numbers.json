@@ -1,0 +1,377 @@
+{
+ "val_seed_scores_ALL": [
+  0.8613,
+  0.8609,
+  0.8728
+ ],
+ "classes_identical_across_seeds": [
+  "bean_healthy",
+  "chilli_Healthy-Leafs",
+  "chilli_Mozaik Leaf"
+ ],
+ "classes_swing_gt_0.02": {
+  "chilli_Curling-Leafs": 0.1225,
+  "cauliflower_black_rot": 0.0851,
+  "bean_angular_leaf_spot": 0.0577,
+  "bean_bean_rust": 0.0538,
+  "chilli_Leaf Spot-Leafs": 0.049,
+  "cauliflower_downy_mildew": 0.0488,
+  "cauliflower_bacterial_spot_rot": 0.042,
+  "potato_early_blight": 0.0317,
+  "cucumber_Antraknosa": 0.0309,
+  "potato_late_blight": 0.0307,
+  "potato_blackleg": 0.0239,
+  "chilli_Leveillula taurica-Leafs": 0.0229
+ },
+ "A_B_gap": {
+  "mean": 0.2501,
+  "sd": 0.00439,
+  "bar": 0.0122,
+  "ratio": 20.5
+ },
+ "train_images": {
+  "min": [
+   "chilli_Leaf Spot-Leafs",
+   15
+  ],
+  "max": [
+   "tomato_curl_virus",
+   1050
+  ],
+  "ratio": 70.0
+ },
+ "boxes": {
+  "min": [
+   "chilli_Leaf Spot-Leafs",
+   22
+  ],
+  "max": [
+   "cucumber_Bacterial Wilt",
+   3550
+  ],
+  "ratio": 161.4,
+  "total": 15134
+ },
+ "val_boxes_lt20": [
+  "bean_angular_leaf_spot",
+  "bean_bean_rust",
+  "bean_healthy",
+  "cauliflower_black_rot",
+  "chilli_Curling-Leafs",
+  "chilli_Healthy-Leafs",
+  "chilli_Leaf Spot-Leafs",
+  "chilli_Leveillula taurica-Leafs",
+  "chilli_Mozaik Leaf"
+ ],
+ "lesion_boxes": {
+  "valid": 1678,
+  "test": 897,
+  "test_per_class": {
+   "bean_angular_leaf_spot": 6,
+   "bean_bean_rust": 7,
+   "cucumber_Antraknosa": 183,
+   "cucumber_Bacterial Wilt": 371,
+   "potato_blackleg": 94,
+   "potato_late_blight": 99,
+   "potato_early_blight": 137
+  }
+ },
+ "classes_at_1.00_1.02": {
+  "n": 10,
+  "map50_min": 0.829,
+  "map50_max": 0.995,
+  "above_0.98": 6,
+  "lowest": "chilli_Leaf Spot-Leafs"
+ },
+ "map50_range": {
+  "max": 0.995,
+  "min": 0.317,
+  "diff": 0.678
+ },
+ "median_area_A_whole_leaf": [
+  0.672,
+  1.0
+ ],
+ "median_area_B_lesion": [
+  0.008,
+  0.26
+ ],
+ "fewer_train_images_than_potato_blackleg": {
+  "n": 9,
+  "blackleg": 96,
+  "range": [
+   15,
+   52
+  ],
+  "map50": [
+   0.829,
+   0.995
+  ]
+ },
+ "mixing_per_image": {
+  "classes_ge_0.10": [
+   "potato_early_blight",
+   "potato_late_blight"
+  ],
+  "train_images_changed_by_harmonising": 141,
+  "train_images": 6148,
+  "per_class": {
+   "bean_bean_rust": {
+    "images": 32,
+    "whole": 0.219,
+    "lesion": 0.0,
+    "mid": 0.781,
+    "mixed": 0.0
+   },
+   "bean_healthy": {
+    "images": 31,
+    "whole": 0.806,
+    "lesion": 0.0,
+    "mid": 0.194,
+    "mixed": 0.0
+   },
+   "bean_angular_leaf_spot": {
+    "images": 30,
+    "whole": 0.333,
+    "lesion": 0.0,
+    "mid": 0.667,
+    "mixed": 0.0
+   },
+   "cauliflower_bacterial_spot_rot": {
+    "images": 113,
+    "whole": 0.858,
+    "lesion": 0.0,
+    "mid": 0.142,
+    "mixed": 0.0
+   },
+   "cauliflower_black_rot": {
+    "images": 36,
+    "whole": 0.861,
+    "lesion": 0.0,
+    "mid": 0.139,
+    "mixed": 0.0
+   },
+   "cauliflower_downy_mildew": {
+    "images": 111,
+    "whole": 0.973,
+    "lesion": 0.0,
+    "mid": 0.027,
+    "mixed": 0.0
+   },
+   "cauliflower_no_disease": {
+    "images": 128,
+    "whole": 0.977,
+    "lesion": 0.0,
+    "mid": 0.023,
+    "mixed": 0.0
+   },
+   "chilli_Leveillula taurica-Leafs": {
+    "images": 20,
+    "whole": 1.0,
+    "lesion": 0.0,
+    "mid": 0.0,
+    "mixed": 0.0
+   },
+   "chilli_Mozaik Leaf": {
+    "images": 52,
+    "whole": 1.0,
+    "lesion": 0.0,
+    "mid": 0.0,
+    "mixed": 0.0
+   },
+   "chilli_Curling-Leafs": {
+    "images": 23,
+    "whole": 0.826,
+    "lesion": 0.0,
+    "mid": 0.174,
+    "mixed": 0.0
+   },
+   "chilli_Healthy-Leafs": {
+    "images": 44,
+    "whole": 1.0,
+    "lesion": 0.0,
+    "mid": 0.0,
+    "mixed": 0.0
+   },
+   "chilli_Leaf Spot-Leafs": {
+    "images": 15,
+    "whole": 0.933,
+    "lesion": 0.0,
+    "mid": 0.067,
+    "mixed": 0.0
+   },
+   "cucumber_Antraknosa": {
+    "images": 552,
+    "whole": 0.917,
+    "lesion": 0.065,
+    "mid": 0.018,
+    "mixed": 0.065
+   },
+   "cucumber_Bacterial Wilt": {
+    "images": 512,
+    "whole": 0.582,
+    "lesion": 0.018,
+    "mid": 0.4,
+    "mixed": 0.018
+   },
+   "cucumber_Downy Mildew": {
+    "images": 381,
+    "whole": 0.848,
+    "lesion": 0.079,
+    "mid": 0.073,
+    "mixed": 0.079
+   },
+   "potato_late_blight": {
+    "images": 347,
+    "whole": 0.588,
+    "lesion": 0.34,
+    "mid": 0.072,
+    "mixed": 0.34
+   },
+   "potato_early_blight": {
+    "images": 181,
+    "whole": 0.127,
+    "lesion": 0.685,
+    "mid": 0.188,
+    "mixed": 0.127
+   },
+   "potato_blackleg": {
+    "images": 96,
+    "whole": 0.0,
+    "lesion": 0.812,
+    "mid": 0.188,
+    "mixed": 0.0
+   },
+   "potato_healthy": {
+    "images": 321,
+    "whole": 0.938,
+    "lesion": 0.0,
+    "mid": 0.062,
+    "mixed": 0.0
+   },
+   "tomato_bacterial_spot": {
+    "images": 1048,
+    "whole": 0.995,
+    "lesion": 0.0,
+    "mid": 0.005,
+    "mixed": 0.0
+   },
+   "tomato_curl_virus": {
+    "images": 1050,
+    "whole": 0.995,
+    "lesion": 0.0,
+    "mid": 0.005,
+    "mixed": 0.0
+   },
+   "tomato_two_spotted_spider_mite": {
+    "images": 1048,
+    "whole": 0.99,
+    "lesion": 0.0,
+    "mid": 0.01,
+    "mixed": 0.0
+   }
+  }
+ },
+ "cucumber_Antraknosa_by_box": {
+  "lesion": 0.538,
+  "whole": 0.417,
+  "mid": 0.045
+ },
+ "v13_split_by_v12_split": {
+  "train": {
+   "train": 4287,
+   "test": 631,
+   "valid": 1230
+  },
+  "valid": {
+   "valid": 340,
+   "train": 1245,
+   "test": 173
+  },
+  "test": {
+   "train": 616,
+   "test": 83,
+   "valid": 180
+  }
+ },
+ "twin_groups": {
+  "kept_images_from_groups_gt1": 5174,
+  "images_removed": 8351
+ },
+ "runs": {
+  "v13_baseline_s0_1024_W2": {
+   "epochs": 100,
+   "best_epoch": 95,
+   "hours": 2.39,
+   "hours_per_100_epochs": 2.39
+  },
+  "v13_baseline_s0_640_W2": {
+   "epochs": 90,
+   "best_epoch": 60,
+   "hours": 0.83,
+   "hours_per_100_epochs": 0.93
+  },
+  "v13_baseline_s1_640_W2": {
+   "epochs": 95,
+   "best_epoch": 65,
+   "hours": 0.88,
+   "hours_per_100_epochs": 0.92
+  },
+  "v13_baseline_s2_640_W2": {
+   "epochs": 100,
+   "best_epoch": 89,
+   "hours": 0.91,
+   "hours_per_100_epochs": 0.91
+  },
+  "v13_p2_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 84,
+   "hours": 1.17,
+   "hours_per_100_epochs": 1.17
+  },
+  "v13_p2_wiou_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 100,
+   "hours": 1.18,
+   "hours_per_100_epochs": 1.18
+  },
+  "v13_small_s0_1024_W2": {
+   "epochs": 100,
+   "best_epoch": 82,
+   "hours": 2.24,
+   "hours_per_100_epochs": 2.24
+  },
+  "v13_small_s1_1024_W2": {
+   "epochs": 79,
+   "best_epoch": 49,
+   "hours": 1.78,
+   "hours_per_100_epochs": 2.25
+  },
+  "v13_small_s2_1024_W2": {
+   "epochs": 100,
+   "best_epoch": 71,
+   "hours": 2.25,
+   "hours_per_100_epochs": 2.25
+  },
+  "v13_uadh_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 97,
+   "hours": 1.03,
+   "hours_per_100_epochs": 1.03
+  }
+ },
+ "gain_n @1024": {
+  "classes_moving_lt_0.0005": 6,
+  "potato_blackleg": [
+   0.317,
+   0.399
+  ]
+ },
+ "gain_s @1024": {
+  "classes_moving_lt_0.0005": 4,
+  "potato_blackleg": [
+   0.317,
+   0.365
+  ]
+ }
+}

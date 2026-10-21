@@ -1,0 +1,24 @@
+arm,class,group,precision,recall,mAP50,mAP50_95
+local_baseline_100ep_s0_1024,bean_angular_leaf_spot,B_lesion,0.8885,0.8462,0.9438,0.6699
+local_baseline_100ep_s0_1024,bean_bean_rust,B_lesion,0.9817,0.7778,0.9266,0.7618
+local_baseline_100ep_s0_1024,bean_healthy,A_whole_leaf,0.8868,0.8723,0.9628,0.7568
+local_baseline_100ep_s0_1024,cauliflower_bacterial_spot_rot,A_whole_leaf,0.9704,0.9926,0.9924,0.7029
+local_baseline_100ep_s0_1024,cauliflower_black_rot,A_whole_leaf,0.8811,0.7895,0.8623,0.5404
+local_baseline_100ep_s0_1024,cauliflower_downy_mildew,A_whole_leaf,0.9706,0.9167,0.9545,0.698
+local_baseline_100ep_s0_1024,cauliflower_no_disease,A_whole_leaf,0.939,0.9737,0.9931,0.7949
+local_baseline_100ep_s0_1024,chilli_Curling-Leafs,A_whole_leaf,0.9729,1.0,0.995,0.7272
+local_baseline_100ep_s0_1024,chilli_Healthy-Leafs,A_whole_leaf,0.9708,1.0,0.995,0.7989
+local_baseline_100ep_s0_1024,chilli_Leaf Spot-Leafs,A_whole_leaf,0.9568,1.0,0.995,0.7096
+local_baseline_100ep_s0_1024,chilli_Leveillula taurica-Leafs,A_whole_leaf,0.8546,1.0,0.9763,0.6773
+local_baseline_100ep_s0_1024,chilli_Mozaik Leaf,A_whole_leaf,0.9748,1.0,0.995,0.8011
+local_baseline_100ep_s0_1024,cucumber_Antraknosa,B_lesion,0.7366,0.7752,0.8249,0.6419
+local_baseline_100ep_s0_1024,cucumber_Bacterial Wilt,B_lesion,0.7679,0.7182,0.7966,0.6083
+local_baseline_100ep_s0_1024,cucumber_Downy Mildew,A_whole_leaf,0.7553,0.7879,0.8259,0.6515
+local_baseline_100ep_s0_1024,potato_healthy,B_lesion,0.9572,0.954,0.9684,0.9016
+local_baseline_100ep_s0_1024,potato_blackleg,B_lesion,0.6098,0.2167,0.3502,0.1734
+local_baseline_100ep_s0_1024,potato_late_blight,B_lesion,0.8997,0.7236,0.8541,0.6884
+local_baseline_100ep_s0_1024,potato_early_blight,B_lesion,0.7283,0.6857,0.7188,0.5106
+local_baseline_100ep_s0_1024,tomato_bacterial_spot,A_whole_leaf,0.9974,0.9969,0.9949,0.8311
+local_baseline_100ep_s0_1024,tomato_curl_virus,A_whole_leaf,0.9934,0.9923,0.9949,0.8343
+local_baseline_100ep_s0_1024,tomato_two_spotted_spider_mite,A_whole_leaf,0.9976,0.9984,0.9937,0.7566
+local_baseline_100ep_s0_1024,ALL,ALL,0.895,0.8644,0.9052,0.6925

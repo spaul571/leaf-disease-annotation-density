@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite it as below."
+title: "Annotation density predicts per-class accuracy in leaf-disease detection: code, split manifest and results"
+type: software
+authors:
+  - family-names: Paul
+    given-names: Shrikanta
+    affiliation: "Department of Computer Science and Engineering, Daffodil International University, Dhaka, Bangladesh"
+  - family-names: Hossain
+    given-names: Shahadat
+    affiliation: "Department of Computer Science and Engineering, Daffodil International University, Dhaka, Bangladesh"
+repository-code: "https://github.com/spaul571/leaf-disease-annotation-density"
+license: MIT
+version: 1.0.0
+date-released: 2026-10-21
+keywords:
+  - plant disease detection
+  - annotation density
+  - object detection
+  - dataset leakage
+  - reproducibility
+  - YOLO
