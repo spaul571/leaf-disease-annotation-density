@@ -5,6 +5,9 @@ predicts per-class accuracy in leaf-disease detection: a label-computable predic
 noise floor* (Shrikanta Paul and Shahadat Hossain, Daffodil International University). The
 manuscript is under review.
 
+Archived on Zenodo: [10.5281/zenodo.23539091](https://doi.org/10.5281/zenodo.23539091) (all
+versions); version v1.0.0 is [10.5281/zenodo.23539092](https://doi.org/10.5281/zenodo.23539092).
+
 The images are not included. They belong to six public Roboflow Universe datasets, whose licences
 govern their use (see [Source datasets](#source-datasets)). Everything else needed to rebuild the
 benchmark splits and every table in the paper is here.
