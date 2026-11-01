@@ -17,6 +17,9 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.23539092
     description: "Version v1.0.0"
+  - type: doi
+    value: 10.5281/zenodo.23858444
+    description: "Version v1.1.0"
 repository-code: "https://github.com/spaul571/leaf-disease-annotation-density"
 license: MIT
 version: 1.1.0

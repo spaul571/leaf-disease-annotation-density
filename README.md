@@ -6,7 +6,8 @@ noise floor* (Shrikanta Paul and Shahadat Hossain, Daffodil International Univer
 manuscript is under review.
 
 Archived on Zenodo: [10.5281/zenodo.23539091](https://doi.org/10.5281/zenodo.23539091) (all
-versions, resolves to the latest); version v1.0.0 is
+versions, resolves to the latest); version v1.1.0 is
+[10.5281/zenodo.23858444](https://doi.org/10.5281/zenodo.23858444) and version v1.0.0 is
 [10.5281/zenodo.23539092](https://doi.org/10.5281/zenodo.23539092).
 
 ## Changes in v1.1.0 (2026-11-01)
