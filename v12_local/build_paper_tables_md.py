@@ -4,9 +4,10 @@ Reads only files produced by `build_paper_assets.py`, `build_table_dataset.py` a
 `build_reviewer_stats.py`, so the manuscript tables cannot drift from the analysis. Writes
 <D.out>/tables_generated.md: paper/ for v13 (the default), paper_v12/ for v12.
 
-Since 2026-10-21 the manuscript's 02_Journal/CEA_manuscript/30_tables.md has hand-written
-captions and its own column names ("Variant", "Convention"), so this script must never write
-there. Copy changed data rows from tables_generated.md into it by hand.
+Since 2026-10-21 the manuscript's tables have hand-written captions and their own column names
+("Variant", "Convention"), so this script must never write there. Since 2026-10-22 they live in
+02_Journal/CEA_manuscript/latex/manuscript.tex (the Markdown 30_tables.md was archived). Copy
+changed data rows from tables_generated.md into its table environments by hand.
 
 Manuscript numbering differs from the asset filenames:
   Table 1 <- table_dataset.csv
@@ -88,22 +89,19 @@ KEY = [("Class mean mAP@50", "ALL"), ("Group A mAP@50", "A"), ("Group B mAP@50",
 rows = []
 for label, k in KEY:
     r = nz.loc[k]
-    row = {"Metric": label, "Validation sd": f"{r.val_sd:.4f}", "Validation bar": f"{r.val_bar:.4f}",
-           "Test sd": f"{r.test_sd:.4f}", "Test bar (single run)": f"{r.test_bar:.4f}"}
-    if V13:
-        row["v12 validation bar"] = f"{r.v12_val_bar:.4f}"
+    row = {"Metric": label, "Validation sd": f"{r.val_sd:.4f}",
+           "Validation bar, single run vs mean": f"{r.val_bar_vs_mean:.4f}",
+           "Validation bar, two single runs": f"{r.val_bar_single:.4f}",
+           "Test sd": f"{r.test_sd:.4f}", "Test bar, two single runs": f"{r.test_bar_single:.4f}"}
     rows.append(row)
 parts += [
     "\n## Table 2\n",
     "The measured noise floor. Standard deviations are computed across three baseline replicates "
-    "differing only in random seed. The significance bar for a difference between two single runs "
-    "is 1.96·sd·√2. Comparisons of means at three seeds per arm on the test split are "
-    "made with Welch's t-test instead (Table 5), because the pooled standard deviation differs "
-    "for each pair of arms and no single bar applies. The lesion group (B) is far noisier on "
-    "the test split than on validation because the test split contains few lesion-class "
-    "instances (Section 4.2)."
-    + (" The last column is the v12 validation bar, against which the Environment 1 arms, run on "
-       "v12 only, are judged (Tables 3b and 4b)." if V13 else "") + "\n",
+    "differing only in random seed. The 95% bar for a single run against the three-seed mean is "
+    "t(0.975, 2)·sd·√(1 + 1/3), and for two single runs t(0.975, 2)·sd·√2, with t(0.975, 2) = "
+    "4.303. Comparisons of means at three seeds per arm are made with Welch's t-test instead "
+    "(Table 5). The lesion group (B) is far noisier on the test split than on validation because "
+    "the test split contains few lesion-class instances (Section 4.2).\n",
     md(pd.DataFrame(rows)), ""]
 
 
@@ -130,8 +128,8 @@ def deltas_table(path, mark=True):
     # (Table 2) and the absolute value of every arm is in Table 3, so the raw delta remains
     # recoverable and nothing is lost. The reference column becomes a footnote marker.
     d = pd.read_csv(path)
-    d["signed"] = np.sign(d["delta"]) * d["ratio"]
-    d["cell"] = d["signed"].map(lambda v: f"**{v:+.1f}**" if abs(v) >= 2 else f"{v:+.1f}")
+    # ratio is signed and unrounded; round it once (S-4: never round an already rounded ratio)
+    d["cell"] = d["ratio"].map(lambda v: f"**{v:+.1f}**" if abs(v) >= 1 else f"{v:+.1f}")
     piv = d.pivot(index=["arm", "vs"], columns="metric", values="cell").reset_index()
     piv = piv[["arm", "vs", "ALL", "A", "B", "recall", "mAP50_95"]]
     if mark:   # off for v13 Table 4: one reference, named in its caption
@@ -142,34 +140,22 @@ def deltas_table(path, mark=True):
 
 
 STD_EFFECT = ("Values are standardised effects: the change in that metric divided by its own "
-              "significance bar from Table 2, carrying the sign of the change. A magnitude of 2 "
-              "or more is a real effect and is shown in bold, 1 to 2 is marginal, and below 1 is "
-              "indistinguishable from seed noise.")
+              "95% threshold, carrying the sign of the change. The threshold is the exact bar of "
+              "Table 2 for a single-seed arm and the half-width of Welch's interval for a "
+              "multi-seed arm. A magnitude of 1 or more lies beyond seed noise and is shown in "
+              "bold.")
 t3 = arms_table(PAP / "table1_arms.csv")
 piv = deltas_table(PAP / "table2_deltas.csv", mark=not V13)
 if V13:
     parts += [
         "\n## Table 3\n",
-        f"All Environment 2 arms on the {D.name} validation split. `baseline` is the three-seed "
-        "mean; every other arm is compared with it (Table 4). The Environment 1 arms were run on "
-        "v12 only and are reported separately (Table 3b).\n",
+        f"Every arm on the {D.name} validation split. `baseline` is the three-seed mean; every "
+        "other arm is compared with it (Table 4).\n",
         md(t3), "",
         "\n## Table 4\n",
-        "Every Environment 2 effect against the three-seed baseline, on the validation split. "
+        "Every effect against the three-seed baseline, on the validation split. "
         + STD_EFFECT + " Absolute values for every arm are given in Table 3.\n",
-        md(piv), "",
-        "\n## Table 3b\n",
-        "Environment 1 arms, run on v12 only. Their validation split shares rotated and flipped "
-        "twins with training (Section 3.2), so these results carry that caveat. `baseline "
-        "(Environment 1)` is the single-seed reference for the 100-epoch arms and `n @60ep` for "
-        "the 60-epoch size sweep.\n",
-        md(arms_table(PAP / "table1_arms_env1_v12.csv")), "",
-        "\n## Table 4b\n",
-        "Environment 1 effects against their matched references, judged against the v12 "
-        "validation bar (Table 2, last column). " + STD_EFFECT + " Reference arms: (b) the "
-        "single-seed baseline in Environment 1, (c) the 60-epoch nano arm. Arms with no matched "
-        "reference at their own epoch budget carry no row.\n",
-        md(deltas_table(PAP / "table2_deltas_env1_v12.csv")), ""]
+        md(piv), ""]
 else:
     parts += [
         "\n## Table 3\n",

@@ -1,0 +1,2 @@
+subset,classes,pearson_r,p,spearman_rho,p_spearman,dropped_thin_classes
+test_full,18,-0.896373680551755,4.808703505689645e-07,-0.9244244320064934,4.213679799908299e-08,"['bean_healthy', 'chilli_Curling-Leafs', 'chilli_Leaf Spot-Leafs', 'chilli_Leveillula taurica-Leafs']"

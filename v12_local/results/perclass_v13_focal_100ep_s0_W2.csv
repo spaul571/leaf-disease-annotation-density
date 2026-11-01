@@ -1,0 +1,24 @@
+arm,class,group,precision,recall,mAP50,mAP50_95
+v13_focal_100ep_s0_W2,bean_angular_leaf_spot,B_lesion,0.7013,0.8889,0.8458,0.5588
+v13_focal_100ep_s0_W2,bean_bean_rust,B_lesion,0.8353,0.8333,0.889,0.6868
+v13_focal_100ep_s0_W2,bean_healthy,A_whole_leaf,0.8382,1.0,0.995,0.8097
+v13_focal_100ep_s0_W2,cauliflower_bacterial_spot_rot,A_whole_leaf,0.9474,0.9375,0.9542,0.7171
+v13_focal_100ep_s0_W2,cauliflower_black_rot,A_whole_leaf,0.5428,0.5947,0.7462,0.3959
+v13_focal_100ep_s0_W2,cauliflower_downy_mildew,A_whole_leaf,0.8794,0.7483,0.881,0.6871
+v13_focal_100ep_s0_W2,cauliflower_no_disease,A_whole_leaf,0.9235,1.0,0.994,0.9808
+v13_focal_100ep_s0_W2,chilli_Curling-Leafs,A_whole_leaf,0.895,0.8571,0.8701,0.6771
+v13_focal_100ep_s0_W2,chilli_Healthy-Leafs,A_whole_leaf,0.9497,1.0,0.995,0.8401
+v13_focal_100ep_s0_W2,chilli_Leaf Spot-Leafs,A_whole_leaf,0.7389,1.0,0.895,0.6905
+v13_focal_100ep_s0_W2,chilli_Leveillula taurica-Leafs,A_whole_leaf,1.0,0.9536,0.995,0.7388
+v13_focal_100ep_s0_W2,chilli_Mozaik Leaf,A_whole_leaf,0.8599,1.0,0.995,0.8262
+v13_focal_100ep_s0_W2,cucumber_Antraknosa,B_lesion,0.6891,0.4964,0.6355,0.5577
+v13_focal_100ep_s0_W2,cucumber_Bacterial Wilt,B_lesion,0.7008,0.5847,0.6969,0.5205
+v13_focal_100ep_s0_W2,cucumber_Downy Mildew,A_whole_leaf,0.7537,0.6853,0.7353,0.704
+v13_focal_100ep_s0_W2,potato_healthy,B_lesion,0.911,0.9479,0.9673,0.9386
+v13_focal_100ep_s0_W2,potato_blackleg,B_lesion,0.5975,0.1397,0.2969,0.1296
+v13_focal_100ep_s0_W2,potato_late_blight,B_lesion,0.8014,0.4459,0.5877,0.4826
+v13_focal_100ep_s0_W2,potato_early_blight,B_lesion,0.6218,0.6179,0.633,0.43
+v13_focal_100ep_s0_W2,tomato_bacterial_spot,A_whole_leaf,0.9738,0.9833,0.9942,0.887
+v13_focal_100ep_s0_W2,tomato_curl_virus,A_whole_leaf,0.9953,0.9834,0.9948,0.8369
+v13_focal_100ep_s0_W2,tomato_two_spotted_spider_mite,A_whole_leaf,0.9846,0.9967,0.994,0.7951
+v13_focal_100ep_s0_W2,ALL,ALL,0.8246,0.8043,0.845,0.6769

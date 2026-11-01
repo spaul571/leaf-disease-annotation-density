@@ -45,18 +45,19 @@ def save_fig(name):
 
 
 def local_arms(ds):
-    """Environment 2 arms of one dataset: means over the seeds that exist."""
-    rows, perclass = {}, {}
+    """Environment 2 arms of one dataset: means over the seeds that exist, and the seeds."""
+    rows, perclass, seeds = {}, {}, {}
     for arm, files in ds.val_arms.items():
         have = [f for f in files if f.exists()]
         if not have:
             print(f"skip {arm}: {files[0].name} not written yet")
             continue
         ss = [P.summarise(f) for f in have]
-        rows[arm] = {k: float(np.mean([s[0][k] for s in ss])) for k in P.METRICS}
+        seeds[arm] = pd.DataFrame([s[0] for s in ss])
+        rows[arm] = {k: float(seeds[arm][k].mean()) for k in P.METRICS}
         rows[arm].update(n_seeds=len(ss), ref=None if arm == "baseline" else "baseline")
         perclass[arm] = pd.concat([s[1] for s in ss], axis=1).mean(axis=1)   # mean over seeds
-    return rows, perclass
+    return rows, perclass, seeds
 
 
 def env1_arms():
@@ -69,7 +70,19 @@ def env1_arms():
     return rows, perclass
 
 
-def arm_tables(rows, floor, suffix):
+def welch_threshold(a, b):
+    """(half-width of the Welch 95% interval on mean(b) - mean(a), Welch p)."""
+    _, lo, hi, _, _ = P.welch_ci(a, b)
+    return (hi - lo) / 2, float(stats.ttest_ind(b, a, equal_var=False)[1])
+
+
+def arm_tables(rows, threshold, suffix):
+    """threshold(arm, metric) -> (95% threshold for that arm's effect, Welch p or None).
+
+    An effect is beyond seed noise when |effect| >= its threshold (Shakib S-4, 2026-11-01): the
+    exact t-based bar for a single run, Welch's interval for a multi-seed arm. The ratio is kept
+    unrounded and rounded once, for display, in ratio_1dp.
+    """
     M = pd.DataFrame(rows).T
     M["A_B_gap"] = M["A"] - M["B"]
     cols = ["n_seeds", "ALL", "A", "B", "recall", "mAP50_95", "A_B_gap"]
@@ -82,11 +95,13 @@ def arm_tables(rows, floor, suffix):
         b = M.loc[r["ref"]]
         for k in P.METRICS:
             eff = float(r[k]) - float(b[k])
-            ratio = abs(eff) / floor[k]
-            d_rows.append({"arm": arm, "vs": r["ref"], "metric": k,
+            thr, p = threshold(arm, k)
+            ratio = eff / thr
+            d_rows.append({"arm": arm, "vs": r["ref"], "metric": k, "n_seeds": int(r["n_seeds"]),
                            "value": round(float(r[k]), 4), "delta": round(eff, 4),
-                           "bar": round(floor[k], 4), "ratio": round(ratio, 2),
-                           "verdict": "REAL" if ratio >= 2 else "MARGINAL" if ratio >= 1 else "NOISE"})
+                           "bar": round(thr, 6), "ratio": round(ratio, 6),
+                           "ratio_1dp": round(ratio, 1), "welch_p": p,
+                           "verdict": "BEYOND" if abs(ratio) >= 1 else "WITHIN"})
     Dl = pd.DataFrame(d_rows)
     Dl.to_csv(OUT / f"table2_deltas{suffix}.csv", index=False)
     if len(Dl):
@@ -94,13 +109,23 @@ def arm_tables(rows, floor, suffix):
     return M, Dl
 
 
-def effects_axes(ax, Dl, floor, title):
+# Harm and gain colours: Okabe-Ito vermillion and blue, which stay distinct under colour-vision
+# deficiency (red against green did not; the guide for authors asks for accessible colour).
+HARM, GAIN = "#D55E00", "#0072B2"
+
+
+def effects_axes(ax, Dl, band, title):
+    """band: the single-run 95% bar. A multi-seed arm carries its own Welch interval instead."""
     sub = Dl[Dl.metric == "ALL"].sort_values("delta")
-    ax.barh(sub.arm, sub.delta, color=["tab:red" if v < 0 else "tab:green" for v in sub.delta])
-    ax.axvspan(-floor["ALL"], floor["ALL"], color="grey", alpha=.3, label="noise band")
+    ax.barh(sub.arm, sub.delta, color=[HARM if v < 0 else GAIN for v in sub.delta])
+    ax.axvspan(-band, band, color="grey", alpha=.3, label="noise band")
+    multi = sub[sub.n_seeds > 1]
+    if len(multi):
+        ax.errorbar(multi.delta, multi.arm, xerr=multi.bar, fmt="none", ecolor="k", capsize=3,
+                    lw=1, label="95% interval of a multi-seed arm")
     ax.axvline(0, c="k", lw=.8)
     ax.set_xlabel("change in overall mAP@50 vs reference")
-    ax.set_title(title)
+    ax.set_title(title, loc="left")
     ax.legend(fontsize=8)
     ax.grid(alpha=.3, axis="x")
 
@@ -119,8 +144,8 @@ def effects_panels(panels, name):
     """One figure, one panel per (deltas, floor, title): the journal takes one file per figure."""
     n = [len(d[d.metric == "ALL"]) for d, _, _ in panels]
     fig, axes = plt.subplots(len(panels), 1, figsize=(7, 0.45 * sum(n) + 1.8 * len(panels)),
-                             gridspec_kw={"height_ratios": n})
-    for ax, (d, f, t) in zip(axes, panels):
+                             gridspec_kw={"height_ratios": n}, squeeze=False)
+    for ax, (d, f, t) in zip(axes[:, 0], panels):
         effects_axes(ax, d, f, t)
     plt.tight_layout()
     save_fig(name)
@@ -128,28 +153,38 @@ def effects_panels(panels, name):
 
 
 # ---------------- Tables 1 and 2: arms on validation, effects against the noise floor ----------
-floor = P.noise_floor(D)
-rows, perclass = local_arms(D)
+floor = P.noise_floor(D)                           # a single run against the baseline mean
+rows, perclass, seeds = local_arms(D)
+floor_v12 = P.noise_floor(P.dataset("v12"), vs="single")   # Environment 1: single vs single run
+
+
+def threshold(arm, k):
+    """Local arms: Welch interval if multi-seed, else the bar against the baseline mean. Anything
+    else is an Environment 1 arm (merged in only for --dataset v12): single run vs single run.
+    Decided by membership in `seeds`, not by name, because the v13 reruns reuse the ENV1 names."""
+    if arm in seeds and len(seeds[arm]) > 1:
+        return welch_threshold(seeds["baseline"][k].values, seeds[arm][k].values)
+    if arm in seeds:
+        return floor[k], None
+    return floor_v12[k], None
+
+
 if D.name == "v12":
     r1, p1 = env1_arms()
     rows.update(r1); perclass.update(p1)
-M, Dl = arm_tables(rows, floor, "")
-if D.name != "v12":
-    print(f"\n--- Environment 1 arms (v12 only, judged against the v12 floor) ---")
-    floor_v12 = P.noise_floor(P.dataset("v12"))
-    r1, _ = env1_arms()
-    M1, Dl1 = arm_tables(r1, floor_v12, "_env1_v12")
+M, Dl = arm_tables(rows, threshold, "")
+# Since the Shakib revision (S-1) the Environment 1 arms are retrained on v13 and sit in M and Dl;
+# their v12 originals are no longer part of the v13 paper (the published v12 build keeps them).
 
 # ---------------- noise table (manuscript Table 2) ----------------
 T = P.test_per_seed(D)
-tbar = P.test_bar(T)
-noise = pd.DataFrame({"val_sd": {k: floor[k] / (1.96 * np.sqrt(2)) for k in P.METRICS},
-                      "val_bar": {k: floor[k] for k in P.METRICS},
-                      "test_sd": {k: tbar[k] / (1.96 * np.sqrt(2)) for k in P.METRICS},
-                      "test_bar": tbar})
-if D.name != "v12":   # the bars the Environment 1 arms are judged against
-    noise["v12_val_sd"] = {k: floor_v12[k] / (1.96 * np.sqrt(2)) for k in P.METRICS}
-    noise["v12_val_bar"] = {k: floor_v12[k] for k in P.METRICS}
+val_sd = P.val_per_seed(D)[list(P.METRICS)].std(ddof=1)
+noise = pd.DataFrame({"val_sd": val_sd,
+                      "val_bar_vs_mean": {k: floor[k] for k in P.METRICS},
+                      "val_bar_single": P.noise_floor(D, vs="single"),
+                      "test_sd": {k: T["baseline"][k].std(ddof=1) for k in P.METRICS},
+                      "test_bar_single": P.test_bar(T)})
+noise = noise.loc[list(P.METRICS)]
 noise.index.name = "metric"
 noise.round(6).to_csv(OUT / "table_noise.csv")
 
@@ -187,8 +222,6 @@ xs = np.linspace(dd.boxes_per_img.min(), dd.boxes_per_img.max(), 50)
 ax.plot(xs, np.polyval(z, xs), "k--", lw=1)
 ax.set_xlabel("annotated boxes per image")
 ax.set_ylabel("class mAP@50")
-ax.set_title(f"Annotation density predicts accuracy (r = {r_p:.2f}, "
-             + ("p < 1e-4)" if p_p < 1e-4 else f"p = {p_p:.4f})"))
 ax.legend(fontsize=8)
 ax.grid(alpha=.3)
 plt.tight_layout()
@@ -196,26 +229,23 @@ save_fig("fig1_density_law")
 plt.close()
 print(f"\ndensity law ({D.name}, validation, {len(dd)} classes): r = {r_p:.3f}, p = {p_p:.2e}")
 
-effects_figure(Dl, floor, "fig2_effects_vs_floor", "Interventions against the measured noise floor")
+effects_figure(Dl, floor["ALL"], "fig2_effects_vs_floor",
+               "Interventions against the measured noise floor")
 if D.name != "v12":
-    # "earlier split" is the manuscript's name for v12 (Section 3.2)
-    effects_figure(Dl1, floor_v12, "fig2b_env1_v12_effects_vs_floor",
-                   "Environment 1 interventions on the earlier split, against its noise floor")
-    # the manuscript's Fig. 3: both of the above as panels (a) and (b) of one file
-    effects_panels([(Dl, floor, "(a) Rebuilt split: interventions against its noise floor"),
-                    (Dl1, floor_v12, "(b) Earlier split: Environment 1 interventions")],
-                   "fig2_effects_panels")
+    # The manuscript's Fig. 3: one panel since the Shakib revision (every arm is on v13), with
+    # no title, because the guide puts a figure's title in its caption.
+    effects_panels([(Dl, floor["ALL"], "")], "fig2_effects_panels")
 
 prog = [(a, M.loc[a, "B"]) for a in ("baseline", "n @1024", "s @1024") if a in M.index]
 base_b = float(M.loc["baseline", "B"])
 fig, ax = plt.subplots(figsize=(5.2, 4))
-# The band from Fig. 2 and Table 2. The title used to claim "Resolution and capacity lift the
-# bottleneck classes": true on v12, false on v13, where both gains sit inside the band (2026-10-21).
+# The band from Fig. 2 and Table 2. The figure has no title (the guide puts titles in captions);
+# an earlier title claimed "Resolution and capacity lift the bottleneck classes": true on v12,
+# false on v13, where both gains sit inside the band (2026-10-21).
 ax.axhspan(base_b - floor["B"], base_b + floor["B"], color="grey", alpha=.3, label="noise band")
 ax.plot([p[0] for p in prog], [float(p[1]) for p in prog], "o-", lw=2, ms=8, color="tab:green")
 ax.axhline(base_b, ls=":", c="grey")
 ax.set_ylabel("lesion-class mAP@50")
-ax.set_title("Lesion-class mAP@50 at 640 and 1024 px")
 ax.legend(fontsize=8)
 ax.grid(alpha=.3)
 plt.tight_layout()

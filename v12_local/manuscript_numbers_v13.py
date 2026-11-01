@@ -42,9 +42,10 @@ out["classes_swing_gt_0.02"] = {c: float(v) for c, v in swing[swing > 0.02].sort
     ascending=False).items()}
 S = P.val_per_seed(D)
 gap_sd = float(S["A_B_gap"].std(ddof=1))
+gap_bar = P.bar(gap_sd, len(S))   # exact t-based bar for two single runs (Shakib S-4)
 out["A_B_gap"] = {"mean": round(float(S["A_B_gap"].mean()), 4), "sd": round(gap_sd, 5),
-                  "bar": round(1.96 * np.sqrt(2) * gap_sd, 4),
-                  "ratio": round(float(S["A_B_gap"].mean()) / (1.96 * np.sqrt(2) * gap_sd), 1)}
+                  "bar": round(gap_bar, 4),
+                  "ratio": round(float(S["A_B_gap"].mean()) / gap_bar, 1)}
 
 # ---------- class composition ----------
 dist = pd.read_csv(D.dist).set_index("class")

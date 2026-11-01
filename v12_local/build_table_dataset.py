@@ -40,6 +40,13 @@ t = t[["class", "crop", "group", "images", "boxes", "boxes_per_img", "median_are
        "mixed_frac", "mAP50", "recall"]].round(4)
 t.to_csv(D.out / "table_dataset.csv", index=False)
 print(t.to_string(index=False))
+
+# Appendix table (Shakib S-5): per-split images and boxes per class, in Table 1's row order.
+splits = dist.set_index("class").loc[t["class"], ["train_imgs", "valid_imgs", "test_imgs",
+                                                   "train_boxes", "valid_boxes", "test_boxes"]]
+splits.insert(0, "group", t.set_index("class")["group"])
+splits.to_csv(D.out / "tableA2_splits.csv")
+print("\nper-split counts:\n" + splits.to_string())
 # NOTE: the per-class `images` column counts images CONTAINING at least one box of that class,
 # so summing it over classes double-counts the few multi-class images. The dataset totals are
 # the on-disk file counts, not this sum.

@@ -28,7 +28,11 @@ import statsmodels.api as sm
 from scipy import stats
 
 import paper_data as P
+from classes import NAMES as P_NAMES, group_of
 from paper_data import welch_ci  # noqa: F401 - the eval notebooks import welch_ci from here
+
+DENSEST = "potato_blackleg"   # the class with the most boxes per image (7.04)
+MIN_TEST_BOXES = 5            # as MIN_INST in build_eval_nb.py: the test correlation's inclusion rule
 
 
 # ---------------------------------------------------------------- helpers
@@ -61,7 +65,8 @@ def vif(X):
 
 # ---------------------------------------------------------------- R1-1
 
-def r1_1(D):
+def classes_table(D):
+    """Per-class label statistics joined to the three-seed baseline mAP@50 on validation."""
     prot = pd.read_csv(D.protocol)
     files = D.val_arms["baseline"]
     assert all(f.exists() for f in files), f"missing baseline seed CSVs: {files}"
@@ -72,6 +77,11 @@ def r1_1(D):
     assert len(d) == 22, f"expected 22 classes after merge, got {len(d)}"
     d["crop"] = d["class"].str.split("_").str[0]
     d["log_n_boxes"] = np.log10(d["n_boxes"])
+    return d.reset_index(drop=True)
+
+
+def r1_1(D):
+    d = classes_table(D)
 
     y = d["mAP50"].values
     dens = d["boxes_per_img"].values
@@ -139,6 +149,110 @@ def r1_1(D):
                             "n_boxes", "mAP50"]].round(4).to_dict(orient="records")}
 
 
+# ---------------------------------------------------------------- Shakib S-2 and S-5
+
+def _corr(x, y):
+    r, p = stats.pearsonr(x, y)
+    s, sp = stats.spearmanr(x, y)
+    return {"n": int(len(x)), "pearson_r": float(r), "pearson_p": float(p), "r2": float(r * r),
+            "spearman_r": float(s), "spearman_p": float(sp)}
+
+
+def _checks(s):
+    """Every S-2 check of the density relationship on one set of classes (rows of classes_table)."""
+    s = s.reset_index(drop=True)
+    y = s["mAP50"].values
+    dens, area, freq = s["boxes_per_img"].values, s["median_area"].values, s["log_n_boxes"].values
+    ld = np.log(dens)
+    out = {"density": _corr(dens, y), "log_density": _corr(ld, y),
+           "log_density_vs_logit_map": _corr(ld, np.log(y / (1 - y)))}
+    try:
+        from statsmodels.othermod.betareg import BetaModel
+        bm = BetaModel(y, sm.add_constant(ld)).fit(disp=0)
+        out["beta_regression_log_density"] = {"coef": float(bm.params[1]), "p": float(bm.pvalues[1])}
+    except Exception as e:                                    # noqa: BLE001
+        out["beta_regression_log_density"] = {"error": f"{type(e).__name__}: {e}"}
+
+    rk = s[["boxes_per_img", "mAP50", "median_area", "log_n_boxes"]].rank()
+    par = {}
+    for label, x, cov in (("density|area", dens, [area]), ("density|freq", dens, [freq]),
+                          ("density|area+freq", dens, [area, freq]),
+                          ("log_density|area", ld, [area]),
+                          ("log_density|area+freq", ld, [area, freq]),
+                          ("spearman density|area", rk.boxes_per_img, [rk.median_area]),
+                          ("spearman density|area+freq", rk.boxes_per_img,
+                           [rk.median_area, rk.log_n_boxes])):
+        yy = rk.mAP50 if label.startswith("spearman") else y
+        r, p, df = partial_corr(x, yy, cov)
+        par[label] = {"r": r, "p": p, "df": df}
+    out["partial"] = par
+
+    X = pd.DataFrame({"density": dens, "median_area": area, "log_n_boxes": freq})
+    m = sm.OLS(y, sm.add_constant(X)).fit()
+    out["multiple_regression"] = {"r2": float(m.rsquared),
+                                  **{f"p_{k}": float(m.pvalues[k]) for k in X.columns}}
+    crops = pd.get_dummies(s["crop"], drop_first=True).astype(float)
+    in_b = (s["class"].map(group_of) == "B_lesion").astype(float).values
+    for name, x in (("density", dens), ("log_density", ld)):
+        f = sm.OLS(y, sm.add_constant(pd.concat([pd.Series(x, name="x"), crops], axis=1))).fit()
+        out[f"crop_fixed_effect_{name}"] = {"beta": float(f.params["x"]), "p": float(f.pvalues["x"])}
+        g = sm.OLS(y, sm.add_constant(np.column_stack([in_b, x]))).fit()
+        g0 = sm.OLS(y, sm.add_constant(in_b)).fit()
+        out[f"group_plus_{name}"] = {"p": float(g.pvalues[2]), "r2": float(g.rsquared),
+                                     "r2_group_only": float(g0.rsquared)}
+    return out
+
+
+def robustness(D):
+    """S-2: does the density relationship survive leverage, transforms and grouping? S-5: the
+    test-split correlation over every class and over the classes with enough test boxes."""
+    d = classes_table(D)
+    out = {"all": _checks(d), f"without_{DENSEST}": _checks(d[d["class"] != DENSEST])}
+
+    loo = {c: float(stats.pearsonr(d.loc[d["class"] != c, "boxes_per_img"],
+                                   d.loc[d["class"] != c, "mAP50"])[0]) for c in d["class"]}
+    weakest = max(loo, key=loo.get)   # the deletion that leaves r least negative
+    inf = sm.OLS(d["mAP50"], sm.add_constant(d["boxes_per_img"])).fit().get_influence()
+    k = int(d.index[d["class"] == DENSEST][0])
+    out["leave_one_out"] = {"pearson_r": loo, "weakest": [weakest, loo[weakest]],
+                            DENSEST: {"leverage": float(inf.hat_matrix_diag[k]),
+                                      "mean_leverage": 2 / len(d),
+                                      "cooks_d": float(inf.cooks_distance[0][k])}}
+
+    grp = d["class"].map(group_of)
+    nonsat = d["mAP50"] < 0.98
+    subsets = {"group_A": grp == "A_whole_leaf", "group_B": grp == "B_lesion",
+               f"group_B_without_{DENSEST}": (grp == "B_lesion") & (d["class"] != DENSEST),
+               "nonsaturated": nonsat, f"nonsaturated_without_{DENSEST}": nonsat & (d["class"] != DENSEST)}
+    out["subsets"] = {k: _corr(d.loc[m, "boxes_per_img"], d.loc[m, "mAP50"]) for k, m in subsets.items()}
+
+    # The test-split rows use densities recomputed from the label files, unrounded, as the test
+    # evaluation notebook does (its 18-class r is the published value); the validation rows above
+    # keep the protocol CSV, rounded to 2 dp, which is what Table 6 records. They differ by <= 0.005.
+    E = [r for r in json.loads(D.test_eval.read_text())
+         if r["subset"] == "test_full" and r["system"] == "baseline"]
+    ap = pd.DataFrame([r["ap50"] for r in E]).mean()
+    tb = pd.read_csv(D.dist).set_index("class")["test_boxes"]
+    per = {}
+    for split in ("train", "valid", "test"):
+        for lbl in (D.root / "labels" / split).glob("*.txt"):
+            cnt = pd.Series([int(l.split()[0]) for l in lbl.read_text().splitlines() if l.strip()],
+                            dtype=int).value_counts()
+            for k, n in cnt.items():
+                per.setdefault(P_NAMES[k], []).append(n)
+    dens = pd.Series({c: float(np.mean(v)) for c, v in per.items()}, name="boxes_per_img")
+    t = pd.concat([dens, ap.rename("test_ap50"), tb], axis=1).loc[d["class"]]
+    ts = {"n_classes_scored": sorted({int(r["n_classes"]) for r in E}),
+          "min_test_boxes": MIN_TEST_BOXES,
+          "excluded": {c: int(v) for c, v in t.test_boxes[t.test_boxes < MIN_TEST_BOXES].items()}}
+    for tag, s in (("all", t), (f"ge{MIN_TEST_BOXES}", t[t.test_boxes >= MIN_TEST_BOXES])):
+        ts[tag] = _corr(s.boxes_per_img, s.test_ap50)
+        u = s.drop(DENSEST)
+        ts[f"{tag}_without_{DENSEST}"] = _corr(u.boxes_per_img, u.test_ap50)
+    out["test_split"] = ts
+    return out
+
+
 # ---------------------------------------------------------------- R1-2
 
 def r1_2(D):
@@ -161,8 +275,9 @@ def r1_2(D):
 def r1_3():
     """Worker-count control, run on v12: three seeds at 8 workers against three at 2.
 
-    Same rule as build_worker_nb.py (bar = 1.96 * sd_pooled * sqrt(2/3), Welch p beside it), but
-    with A and B regrouped by classes.py. The run times stay in results/worker_control.json.
+    Two three-seed means, so the threshold is the half-width of the Welch 95% interval (Shakib
+    S-4; it was 1.96 * sd_pooled * sqrt(2/3) until 2026-11-01), with Welch p beside it and A and B
+    regrouped by classes.py. The run times stay in results/worker_control.json.
     """
     w8 = pd.DataFrame([P.summarise(f)[0] for f in P.dataset("v12").val_arms["baseline"]])
     w2 = pd.DataFrame([P.summarise(P.RES / f"perclass_local_baseline_100ep_s{s}_W2.csv")[0]
@@ -170,23 +285,39 @@ def r1_3():
     rows = []
     for m in P.METRICS:
         a, b = w8[m].values, w2[m].values
-        sd_pool = np.sqrt((a.var(ddof=1) + b.var(ddof=1)) / 2)
-        bar = 1.96 * sd_pool * np.sqrt(2 / 3)
-        delta = b.mean() - a.mean()
+        delta, lo, hi, _, _ = P.welch_ci(a, b)
+        bar = (hi - lo) / 2
         rows.append({"metric": m, "workers=8": a.mean(), "sd8": a.std(ddof=1),
                      "workers=2": b.mean(), "sd2": b.std(ddof=1), "delta": delta, "bar": bar,
                      "ratio": abs(delta) / bar,
                      "welch_p": float(stats.ttest_ind(b, a, equal_var=False)[1])})
-    return {"dataset": "v12", "rule": "1.96 * sd_pooled * sqrt(2/3)", "comparison": rows}
+    return {"dataset": "v12", "rule": "half-width of the Welch 95% interval", "comparison": rows}
 
 
 if __name__ == "__main__":
     D = P.dataset(P.add_dataset_arg(argparse.ArgumentParser()).parse_args().dataset)
     OUT = P.RES / f"{D.tag}reviewer_stats.json"
     out = {"dataset": D.name, "R1_1_confounds": r1_1(D), "R1_2_seeds_and_intervals": r1_2(D),
-           "R1_3_worker_control_v12": r1_3()}
+           "R1_3_worker_control_v12": r1_3(), "S2_robustness": robustness(D)}
     OUT.write_text(json.dumps(out, indent=2))
     print("SAVED", OUT)
+
+    rb = out["S2_robustness"]
+    print("\n--- S-2 robustness (all classes | without potato_blackleg) ---")
+    for key, get in (("Pearson density", lambda c: c["density"]["pearson_r"]),
+                     ("Pearson log density", lambda c: c["log_density"]["pearson_r"]),
+                     ("partial r | area", lambda c: c["partial"]["density|area"]["r"]),
+                     ("partial p | area", lambda c: c["partial"]["density|area"]["p"]),
+                     ("partial Spearman | area", lambda c: c["partial"]["spearman density|area"]["r"]),
+                     ("multi-reg density p", lambda c: c["multiple_regression"]["p_density"]),
+                     ("multi-reg area p", lambda c: c["multiple_regression"]["p_median_area"]),
+                     ("crop FE density p", lambda c: c["crop_fixed_effect_density"]["p"]),
+                     ("group+density p", lambda c: c["group_plus_density"]["p"])):
+        print(f"  {key:26s} {get(rb['all']):+.4g} | {get(rb['without_' + DENSEST]):+.4g}")
+    print(f"  leave-one-out weakest: {rb['leave_one_out']['weakest']}")
+    ts = rb["test_split"]
+    print(f"  test r: all {ts['all']['pearson_r']:+.3f} | >=5 boxes {ts['ge5']['pearson_r']:+.3f}"
+          f" | excluded {ts['excluded']}")
 
     a = out["R1_1_confounds"]
     print("\n--- R1-1 univariate ---")

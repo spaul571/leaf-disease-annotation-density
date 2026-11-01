@@ -169,11 +169,11 @@
     "floored_classes": 14,
     "cut_classes": 8,
     "group_bars": {
-      "floored": 0.0083,
-      "not_floored": 0.0042,
-      "lesion": 0.0085,
-      "wholeleaf": 0.0047,
-      "cut": 0.0042
+      "floored": 0.0181,
+      "not_floored": 0.0093,
+      "lesion": 0.0187,
+      "wholeleaf": 0.0104,
+      "cut": 0.0093
     },
     "oversample": {
       "mean_delta_floored": 0.0108,
@@ -469,6 +469,278 @@
         [
           "potato_healthy",
           0.0012
+        ]
+      ]
+    }
+  },
+  "v13_arms": {
+    "floored_classes": 17,
+    "cut_classes": 5,
+    "group_bars": {
+      "floored": 0.0414,
+      "not_floored": 0.0175,
+      "lesion": 0.0396,
+      "wholeleaf": 0.0324,
+      "cut": 0.0175
+    },
+    "oversample": {
+      "mean_delta_floored": -0.0112,
+      "mean_delta_not_floored": -0.0018,
+      "mean_delta_cut": -0.0018,
+      "mean_delta_lesion": -0.018,
+      "mean_delta_wholeleaf": -0.0049,
+      "delta_vs_density": {
+        "pearson": 0.252,
+        "p": 0.2585,
+        "spearman": -0.291,
+        "p_s": 0.1893
+      },
+      "delta_vs_log_frequency": {
+        "pearson": 0.206,
+        "p": 0.3581,
+        "spearman": -0.067,
+        "p_s": 0.7661
+      },
+      "potato_blackleg": {
+        "map50": [
+          0.3166,
+          0.3635
+        ],
+        "recall": [
+          0.2372,
+          0.3647
+        ]
+      },
+      "cut_classes": {
+        "cucumber_Antraknosa": [
+          552,
+          -0.0036
+        ],
+        "cucumber_Bacterial Wilt": [
+          512,
+          -0.0078
+        ],
+        "tomato_bacterial_spot": [
+          1048,
+          0.0009
+        ],
+        "tomato_curl_virus": [
+          1050,
+          0.0001
+        ],
+        "tomato_two_spotted_spider_mite": [
+          1048,
+          0.0011
+        ]
+      },
+      "worst5": [
+        [
+          "bean_angular_leaf_spot",
+          -0.1247
+        ],
+        [
+          "cauliflower_black_rot",
+          -0.1159
+        ],
+        [
+          "bean_bean_rust",
+          -0.0735
+        ],
+        [
+          "cauliflower_downy_mildew",
+          -0.0494
+        ],
+        [
+          "potato_late_blight",
+          -0.0155
+        ]
+      ],
+      "best3": [
+        [
+          "chilli_Curling-Leafs",
+          0.0583
+        ],
+        [
+          "potato_early_blight",
+          0.0523
+        ],
+        [
+          "potato_blackleg",
+          0.0469
+        ]
+      ]
+    },
+    "naive": {
+      "mean_delta_floored": 0.0041,
+      "mean_delta_not_floored": -0.0095,
+      "mean_delta_cut": -0.0095,
+      "mean_delta_lesion": -0.0117,
+      "mean_delta_wholeleaf": 0.0069,
+      "delta_vs_density": {
+        "pearson": -0.051,
+        "p": 0.8217,
+        "spearman": -0.229,
+        "p_s": 0.3045
+      },
+      "delta_vs_log_frequency": {
+        "pearson": -0.178,
+        "p": 0.4278,
+        "spearman": -0.289,
+        "p_s": 0.1923
+      },
+      "potato_blackleg": {
+        "map50": [
+          0.3166,
+          0.3057
+        ],
+        "recall": [
+          0.2372,
+          0.3588
+        ]
+      },
+      "cut_classes": {
+        "cucumber_Antraknosa": [
+          552,
+          -0.032
+        ],
+        "cucumber_Bacterial Wilt": [
+          512,
+          -0.0099
+        ],
+        "tomato_bacterial_spot": [
+          1048,
+          -0.0038
+        ],
+        "tomato_curl_virus": [
+          1050,
+          -0.0025
+        ],
+        "tomato_two_spotted_spider_mite": [
+          1048,
+          0.0006
+        ]
+      },
+      "worst5": [
+        [
+          "chilli_Curling-Leafs",
+          -0.0817
+        ],
+        [
+          "bean_angular_leaf_spot",
+          -0.0664
+        ],
+        [
+          "cauliflower_downy_mildew",
+          -0.0506
+        ],
+        [
+          "cucumber_Antraknosa",
+          -0.032
+        ],
+        [
+          "potato_late_blight",
+          -0.0189
+        ]
+      ],
+      "best3": [
+        [
+          "chilli_Leaf Spot-Leafs",
+          0.1663
+        ],
+        [
+          "potato_early_blight",
+          0.0426
+        ],
+        [
+          "cauliflower_bacterial_spot_rot",
+          0.0246
+        ]
+      ]
+    },
+    "focal": {
+      "mean_delta_floored": -0.0201,
+      "mean_delta_not_floored": -0.0196,
+      "mean_delta_cut": -0.0196,
+      "mean_delta_lesion": -0.0395,
+      "mean_delta_wholeleaf": -0.0109,
+      "delta_vs_density": {
+        "pearson": -0.186,
+        "p": 0.4076,
+        "spearman": -0.56,
+        "p_s": 0.0067
+      },
+      "delta_vs_log_frequency": {
+        "pearson": -0.19,
+        "p": 0.3981,
+        "spearman": -0.177,
+        "p_s": 0.4301
+      },
+      "potato_blackleg": {
+        "map50": [
+          0.3166,
+          0.2969
+        ],
+        "recall": [
+          0.2372,
+          0.1397
+        ]
+      },
+      "cut_classes": {
+        "cucumber_Antraknosa": [
+          552,
+          -0.0694
+        ],
+        "cucumber_Bacterial Wilt": [
+          512,
+          -0.0295
+        ],
+        "tomato_bacterial_spot": [
+          1048,
+          0.0003
+        ],
+        "tomato_curl_virus": [
+          1050,
+          0.0
+        ],
+        "tomato_two_spotted_spider_mite": [
+          1048,
+          0.0004
+        ]
+      },
+      "worst5": [
+        [
+          "cauliflower_black_rot",
+          -0.0907
+        ],
+        [
+          "cucumber_Antraknosa",
+          -0.0694
+        ],
+        [
+          "chilli_Curling-Leafs",
+          -0.0666
+        ],
+        [
+          "potato_late_blight",
+          -0.0594
+        ],
+        [
+          "cauliflower_downy_mildew",
+          -0.0526
+        ]
+      ],
+      "best3": [
+        [
+          "chilli_Leaf Spot-Leafs",
+          0.0663
+        ],
+        [
+          "chilli_Leveillula taurica-Leafs",
+          0.0153
+        ],
+        [
+          "potato_healthy",
+          0.0043
         ]
       ]
     }

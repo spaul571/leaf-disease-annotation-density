@@ -178,6 +178,122 @@ from build_p2 import WIOU
 exec(WIOU)
 '''
 
+WIOU_VERIFY = '''# === Post-train verification: was WIoU v3 the box loss? ===
+import ultralytics.utils.loss as L
+_crit = getattr(model.trainer.model, "criterion", None)
+assert _crit is not None, "no criterion on the trained model"
+assert type(_crit.bbox_loss).forward.__name__ == "_fwd", "BboxLoss was not the WIoU v3 patch"
+print("WIoU v3 was the box loss during training")
+'''
+
+# Verbatim from the exp13 Kaggle kernel (v12_kaggle/build_focal.py, PATCH). Copied, not imported:
+# build_focal.py writes its Kaggle notebooks at import time.
+FOCAL_CELL = '''# === Focal loss patch: classification BCE -> focal BCE (gamma 1.5, alpha 0.25) ===
+# v8DetectionLoss does: bce_loss = self.bce(pred_scores, target_scores); loss[1] = bce_loss.sum()/...
+# so the replacement MUST return an element-wise tensor of the same shape (reduction="none").
+import torch.nn as nn
+import torch.nn.functional as F
+GAMMA, ALPHA = 1.5, 0.25
+
+class FocalBCE(nn.Module):
+    def __init__(self, gamma=GAMMA, alpha=ALPHA):
+        super().__init__(); self.gamma = gamma; self.alpha = alpha
+    def forward(self, pred, target):
+        loss = F.binary_cross_entropy_with_logits(pred, target, reduction="none")
+        p = pred.sigmoid()
+        p_t = target * p + (1 - target) * (1 - p)
+        loss = loss * (1.0 - p_t) ** self.gamma
+        if self.alpha > 0:
+            a_t = target * self.alpha + (1 - target) * (1 - self.alpha)
+            loss = loss * a_t
+        return loss
+
+import ultralytics.utils.loss as ul
+_orig_init = ul.v8DetectionLoss.__init__
+def _patched_init(self, *a, **k):
+    _orig_init(self, *a, **k)
+    self.bce = FocalBCE()
+    print(f"[patch] cls loss -> FocalBCE(gamma={GAMMA}, alpha={ALPHA})", flush=True)
+ul.v8DetectionLoss.__init__ = _patched_init
+print("Focal-loss patch installed.")
+'''
+
+FOCAL_VERIFY = '''# === Post-train verification: was the classification loss focal? ===
+_crit = getattr(model.trainer.model, "criterion", None)
+assert _crit is not None, "no criterion on the trained model"
+assert type(_crit.bce).__name__ == "FocalBCE", f"cls loss was {type(_crit.bce).__name__}, not focal"
+print("focal loss was the classification loss during training")
+'''
+
+MODEL_RTDETR = '''# === Model: RT-DETR-l (detector family) ===
+from ultralytics import RTDETR, YOLO
+model = RTDETR("rtdetr-l.pt")
+print("params %.3fM" % (sum(p.numel() for p in model.model.parameters())/1e6))
+'''
+
+MODEL_P2_RM = '''# === Model: YOLOv11n-P2 (stride-4 head), pretrained weights mapped BY ROLE (Shakib S-6) ===
+# Found 2026-11-01: YOLO(<yaml>).train() rebuilds the network from the YAML with fresh weights,
+# because Model.train() reuses in-memory weights only for a model loaded from a checkpoint. Every
+# earlier P2 run (MODEL_P2 below) therefore trained from scratch. Here yolo11n's tensors are mapped
+# by role (448 of 593; only the new P2 layers keep a fresh init), the model is saved as a
+# checkpoint and trained from it, and a callback checks inside training that the weights arrived.
+from ultralytics import YOLO
+sys.path.insert(0, r"__KAGGLE_DIR__")
+from build_p2 import P2_YAML
+
+p2_path = HERE / "yolo11n_p2.yaml"
+p2_path.write_text(P2_YAML)
+LAYER = {**{i: i for i in range(17)}, 23: 17, 24: 18, 25: 19, 26: 20, 27: 21, 28: 22, 29: 23}
+BRANCH = {1: 0, 2: 1, 3: 2}     # Detect branches: P2 model (P2, P3, P4, P5) -> yolo11n (P3, P4, P5)
+
+def src_key(k):
+    p = k.split("."); i = int(p[1])
+    if i not in LAYER:
+        return None
+    p[1] = str(LAYER[i])
+    if i == 29 and p[2] in ("cv2", "cv3"):
+        if int(p[3]) not in BRANCH:
+            return None
+        p[3] = str(BRANCH[int(p[3])])
+    return ".".join(p)
+
+torch.manual_seed(SEED)              # the new layers' initialisation follows the run's seed
+fresh = YOLO(str(p2_path))
+PRE = YOLO("yolo11n.pt").model.state_dict()
+st = fresh.model.state_dict(); tx = 0
+for k in st:
+    s = src_key(k)
+    if s and s in PRE and PRE[s].shape == st[k].shape:
+        st[k] = PRE[s].clone(); tx += 1
+assert tx == 448 and len(st) == 593, f"role mapping changed: {tx}/{len(st)}"
+fresh.model.load_state_dict(st)
+init_pt = HERE / "runs" / f"{RUN}_init.pt"
+init_pt.parent.mkdir(exist_ok=True)
+fresh.save(str(init_pt))
+model = YOLO(str(init_pt))           # a checkpoint, so train() keeps these weights
+assert model.ckpt, "no checkpoint: train() would rebuild the model with random weights"
+print(f"params {sum(p.numel() for p in model.model.parameters())/1e6:.3f}M | "
+      f"mapped {tx}/{len(st)} tensors -> {init_pt.name}")
+
+det = model.model.model[-1]
+strides = [int(s) for s in det.stride]
+assert det.nl == 4 and strides == [4, 8, 16, 32], f"P2 head wrong: nl={det.nl} {strides}"
+
+PROBES = {"model.0.conv.weight": "model.0.conv.weight",
+          "model.25.cv1.conv.weight": "model.19.cv1.conv.weight",
+          "model.29.cv2.1.0.conv.weight": "model.23.cv2.0.0.conv.weight"}
+
+def check_pretrained(trainer):
+    """Inside training: the network being trained must hold yolo11n's tensors, by role."""
+    sd = trainer.model.state_dict()
+    for k, s in PROBES.items():
+        assert torch.allclose(sd[k].float().cpu(), PRE[s].float(), atol=1e-3), (
+            f"{k} does not hold yolo11n {s}: the pretrained weights did not reach training")
+    print("pretrained weights verified inside training:", ", ".join(PROBES), flush=True)
+
+model.add_callback("on_train_start", check_pretrained)
+'''
+
 MODEL_BASE = '''# === Model: stock YOLO ===
 from ultralytics import YOLO
 model = YOLO("__WEIGHTS__")
@@ -390,14 +506,36 @@ display(df.sort_values("mAP50").reset_index(drop=True))
 '''
 
 
+TITLES = {"baseline": "v12 baseline (local calibration)",
+          "p2": "v12 + P2 small-lesion head",
+          "p2_wiou": "v12 + P2 head + WIoU",
+          "uadh": "v12 + UADH (uncertainty-aware detection head)",
+          "small": "v12 YOLOv11s (capacity x resolution)",
+          # Shakib S-1 and S-6 (revision/PLAN_Shakib.md), v13 only
+          "medium": "v12 YOLOv11m (model size)",
+          "rtdetr": "v12 RT-DETR-l (detector family)",
+          "focal": "v12 + focal loss",
+          "wiou": "v12 + WIoU v3 box loss",
+          "oversample": "v12, training set oversampled to 400 images per class",
+          "naive": "v12, training set resampled to exactly 400 images per class",
+          "p2_rm": "v12 + P2 head, pretrained weights mapped by role",
+          "p2_wiou_rm": "v12 + P2 head (weights mapped by role) + WIoU"}
+V13_ONLY = ("medium", "rtdetr", "focal", "wiou", "oversample", "naive", "p2_rm", "p2_wiou_rm")
+WEIGHTS = {"baseline": "yolo11n.pt", "small": "yolo11s.pt", "medium": "yolo11m.pt",
+           "focal": "yolo11n.pt", "wiou": "yolo11n.pt", "oversample": "yolo11n.pt",
+           "naive": "yolo11n.pt"}
+RESAMPLED = {   # built by build_resampled_v13.py; validation and test are the v13 ones
+    "oversample": r"f:\0BScDefense\05_Datasets\merged-dataset-v13-oversample\data.yaml",
+    "naive": r"f:\0BScDefense\05_Datasets\merged-dataset-v13-naive\data.yaml"}
+
+
 def build(arm, seed, epochs, imgsz, batch, workers, cache, ram_limit, dataset="v12"):
     kaggle_dir = str((HERE.parent / "v12_kaggle").resolve())
     data, prefix = DATASETS[dataset]
-    title = {"baseline": "v12 baseline (local calibration)",
-             "p2": "v12 + P2 small-lesion head",
-             "p2_wiou": "v12 + P2 head + WIoU",
-             "uadh": "v12 + UADH (uncertainty-aware detection head)",
-             "small": "v12 YOLOv11s (capacity x resolution)"}[arm]
+    if arm in V13_ONLY and dataset != "v13":
+        raise SystemExit(f"arm {arm} exists for v13 only")
+    data = RESAMPLED.get(arm, data)
+    title = TITLES[arm]
     if dataset != "v12":
         title = title.replace("v12", dataset)
 
@@ -411,19 +549,32 @@ def build(arm, seed, epochs, imgsz, batch, workers, cache, ram_limit, dataset="v
                            here=str(HERE), data=data, prefix=prefix)),
         code(WATCHDOG),
     ]
-    if arm == "p2_wiou":
+    if arm in ("p2_wiou", "p2_wiou_rm", "wiou"):
         cells.append(code(WIOU_CELL.replace("__KAGGLE_DIR__", kaggle_dir)))
+    if arm == "focal":
+        cells.append(code(FOCAL_CELL))
     if arm == "uadh":
         cells.append(code(MODEL_UADH.replace("__LOCAL_DIR__", str(HERE))))
+    elif arm in ("p2_rm", "p2_wiou_rm"):
+        cells.append(code(MODEL_P2_RM.replace("__KAGGLE_DIR__", kaggle_dir)))
+    elif arm == "rtdetr":
+        cells.append(code(MODEL_RTDETR))
+    elif arm in WEIGHTS:
+        cells.append(code(MODEL_BASE.replace("__WEIGHTS__", WEIGHTS[arm])))
     else:
-        _w = {"baseline": "yolo11n.pt", "small": "yolo11s.pt"}.get(arm)
-        cells.append(code(MODEL_BASE.replace("__WEIGHTS__", _w) if _w
-                          else MODEL_P2.replace("__KAGGLE_DIR__", kaggle_dir)))
+        cells.append(code(MODEL_P2.replace("__KAGGLE_DIR__", kaggle_dir)))
     cells.append(code(TRAIN))
     if arm == "uadh":
         cells.append(code(UADH_VERIFY))
+    if arm == "focal":
+        cells.append(code(FOCAL_VERIFY))
+    if arm in ("p2_wiou_rm", "wiou"):
+        cells.append(code(WIOU_VERIFY))
+    val = VAL.replace("the clean v12 val split", "the v13 val split")
+    if arm == "rtdetr":   # an RT-DETR checkpoint must be validated through the RTDETR class
+        val = val.replace("b = YOLO(str(best))", "b = RTDETR(str(best))")
     if dataset == "v13":
-        cells += [code(VAL.replace("the clean v12 val split", "the v13 val split")),
+        cells += [code(val),
                   code(REPORT_V13),
                   code(CURVE.replace('ax[0].axhline(REF["ALL"], ls="--", c="grey", '
                                      'label="T4 baseline 0.8975")\n', ""))]
@@ -455,7 +606,7 @@ def build(arm, seed, epochs, imgsz, batch, workers, cache, ram_limit, dataset="v
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", choices=sorted(DATASETS), default="v12")
-    ap.add_argument("--arm", choices=["baseline", "p2", "p2_wiou", "uadh", "small"], required=True)
+    ap.add_argument("--arm", choices=sorted(TITLES), required=True)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--epochs", type=int, default=100)
     ap.add_argument("--imgsz", type=int, default=640)

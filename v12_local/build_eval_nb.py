@@ -30,6 +30,12 @@ SETTINGS = {
     "v13": {"data": r"f:\0BScDefense\05_Datasets\merged-dataset-v13",
             "base_run": "v13_baseline_s{seed}_640_W2", "small_run": "v13_small_s{seed}_1024_W2",
             "stem": "eval_v13", "nb": "eval_v13.ipynb"},
+    # Shakib S-3: the same nine v13 models on the 699 test images that were not in the v12
+    # validation split, where the final configuration was chosen. A new stem, so the record file
+    # results/eval_v13_eval.json is never touched.
+    "v13_sub699": {"data": r"f:\0BScDefense\05_Datasets\merged-dataset-v13",
+                   "base_run": "v13_baseline_s{seed}_640_W2", "small_run": "v13_small_s{seed}_1024_W2",
+                   "stem": "eval_v13_not_v12valid", "nb": "eval_v13_not_v12valid.ipynb"},
 }
 
 HEADER = {
@@ -67,6 +73,21 @@ the v13 validation split. This is the v13 counterpart of `eval_test.py` + `eval_
 
 Prerequisite: the six core v13 notebooks have finished (`nb/v13_baseline_s{0,1,2}_640_W2.ipynb`,
 `nb/v13_small_s{0,1,2}_1024_W2.ipynb`).
+
+**When finished,** restart the kernel. Ultralytics' `val()` can leave dataloader workers alive.
+""",
+    "v13_sub699": """# Held-out test without the images used to choose the configuration (Shakib S-3)
+
+180 of the 879 v13 test images were in the v12 validation split, on which YOLOv11s 1024 + TTA was
+chosen. This notebook scores the same nine models (baseline YOLOv11n 640, YOLOv11s 1024, YOLOv11s
+1024 + TTA; seeds 0-2) on the other 699 images: 616 earlier training images and 83 earlier test
+images (`../v13_manifest.csv`, column `v12_split`). Same Welch tests and Holm correction across
+the same five metrics. The result is reported whichever way it falls (PLAN_Shakib.md, rule 6).
+
+**Sanity check.** The full test split is scored again and must reproduce
+`results/eval_v13_eval.json` to 0.0001.
+
+**Runtime.** 18 validation passes, about 10-20 minutes. Resumable.
 
 **When finished,** restart the kernel. Ultralytics' `val()` can leave dataloader workers alive.
 """,
@@ -119,6 +140,20 @@ def images(split):
 
 SUBSETS = {"test_full": (DATA / "data.yaml", "test", images("test")),
            "valid_full": (DATA / "data.yaml", "val", images("valid"))}
+
+if DATASET == "v13_sub699":
+    del SUBSETS["valid_full"]
+    man = pd.read_csv(HERE.parent / "v13_manifest.csv")
+    keep = set(man[(man.split == "test") & (man.v12_split != "valid")].file)
+    lst = [p for p in images("test") if p.name in keep]
+    assert len(lst) == 699, f"expected 699 test images outside the v12 validation split, got {len(lst)}"
+    txt = SPL / "v13_test_not_v12valid.txt"
+    txt.write_text("\n".join(str(p) for p in lst) + "\n", encoding="utf-8")
+    yml = SPL / "v13_test_not_v12valid.yaml"
+    yml.write_text(yaml.safe_dump(
+        {"path": str(DATA), "train": "images/train", "val": str(txt), "test": str(txt),
+         "nc": len(NAMES), "names": NAMES}, sort_keys=False), encoding="utf-8")
+    SUBSETS["test_not_v12valid"] = (yml, "test", lst)
 
 if DATASET == "v12":
     pairs = pd.read_csv(RES / "dihedral_twins_pairs.csv")
@@ -224,6 +259,16 @@ print("OK - the setup reproduces the published evaluation" if worst <= 0.0015 el
       "reading anything below")
 '''
 
+SANITY_V13 = r'''# === Sanity: the full test split must reproduce results/eval_v13_eval.json ===
+rec = {(r["system"], r["seed"]): r for r in json.loads((RES / "eval_v13_eval.json").read_text())
+       if r["subset"] == "test_full"}
+worst = max(abs(getattr(r, k) - rec[(r.system, r.seed)][k])
+            for r in R[R.subset == "test_full"].itertuples() for k in ("ALL", "recall", "mAP50_95"))
+print(f"largest |re-run - record| on the full test split: {worst:.6f}")
+print("OK - the setup reproduces the record" if worst <= 1e-4 else
+      "STOP - the full-test scores differ from the record; find out why before reading on")
+'''
+
 STATS = r'''# === Welch tests: each system vs the baseline, per test subset ===
 def holm(ps):
     adj, run = {}, 0.0
@@ -321,7 +366,8 @@ def claim(sub, system, k):
 
 lines = [f"# {STEM}: summary", ""]
 main = "test_twinfree" if "test_twinfree" in STATS else "test_full"
-for sub in [s for s in ("test_full", "test_twinfree", "test_twinned") if s in STATS]:
+for sub in [s for s in ("test_full", "test_twinfree", "test_twinned", "test_not_v12valid")
+            if s in STATS]:
     lines += [f"## {sub} ({len(SUBSETS[sub][2])} images)", ""]
     lines += [f"- {claim(sub, 's@1024+TTA', k)}" for k in ("mAP50_95", "B", "ALL")]
     lines += [f"- {claim(sub, 's@1024', k)}" for k in ("mAP50_95", "B")]
@@ -353,6 +399,8 @@ def build(dataset, force):
     cells = [md(HEADER[dataset]), code(ENV), code(sub(CONFIG)), code(SUBSETS), code(EVAL)]
     if dataset == "v12":
         cells.append(code(SANITY))
+    if dataset == "v13_sub699":
+        cells.append(code(SANITY_V13))
     cells.append(code(STATS))
     if dataset == "v12":
         cells.append(code(LEAK))

@@ -26,8 +26,8 @@
  "A_B_gap": {
   "mean": 0.2501,
   "sd": 0.00439,
-  "bar": 0.0122,
-  "ratio": 20.5
+  "bar": 0.0267,
+  "ratio": 9.4
  },
  "train_images": {
   "min": [
@@ -323,11 +323,47 @@
    "hours": 0.91,
    "hours_per_100_epochs": 0.91
   },
+  "v13_focal_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 76,
+   "hours": 1.18,
+   "hours_per_100_epochs": 1.18
+  },
+  "v13_medium_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 71,
+   "hours": 2.03,
+   "hours_per_100_epochs": 2.03
+  },
+  "v13_naive_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 96,
+   "hours": 1.38,
+   "hours_per_100_epochs": 1.38
+  },
+  "v13_oversample_s0_640_W2": {
+   "epochs": 96,
+   "best_epoch": 66,
+   "hours": 1.6,
+   "hours_per_100_epochs": 1.66
+  },
+  "v13_p2_rm_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 89,
+   "hours": 1.19,
+   "hours_per_100_epochs": 1.19
+  },
   "v13_p2_s0_640_W2": {
    "epochs": 100,
    "best_epoch": 84,
    "hours": 1.17,
    "hours_per_100_epochs": 1.17
+  },
+  "v13_p2_wiou_rm_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 75,
+   "hours": 1.18,
+   "hours_per_100_epochs": 1.18
   },
   "v13_p2_wiou_s0_640_W2": {
    "epochs": 100,
@@ -335,11 +371,23 @@
    "hours": 1.18,
    "hours_per_100_epochs": 1.18
   },
+  "v13_rtdetr_s0_640_W2": {
+   "epochs": 76,
+   "best_epoch": 46,
+   "hours": 5.29,
+   "hours_per_100_epochs": 6.96
+  },
   "v13_small_s0_1024_W2": {
    "epochs": 100,
    "best_epoch": 82,
    "hours": 2.24,
    "hours_per_100_epochs": 2.24
+  },
+  "v13_small_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 79,
+   "hours": 1.15,
+   "hours_per_100_epochs": 1.15
   },
   "v13_small_s1_1024_W2": {
    "epochs": 79,
@@ -358,6 +406,12 @@
    "best_epoch": 97,
    "hours": 1.03,
    "hours_per_100_epochs": 1.03
+  },
+  "v13_wiou_s0_640_W2": {
+   "epochs": 100,
+   "best_epoch": 99,
+   "hours": 1.0,
+   "hours_per_100_epochs": 1.0
   }
  },
  "gain_n @1024": {

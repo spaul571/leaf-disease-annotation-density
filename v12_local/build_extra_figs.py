@@ -152,9 +152,10 @@ def annotation_examples():
     axes[0, 0].set_ylabel("whole-leaf convention", fontsize=9, color="#1f77b4")
     axes[1, 0].set_ylabel("lesion convention", fontsize=9, color="#d62728")
     plt.tight_layout()
+    # Both files at FIG_DPI: without it the PDF embedded the photographs at matplotlib's
+    # default 100 dpi, below the guide's 300 dpi for photographs.
     for ext in ("png", "pdf"):
-        plt.savefig(OUT / f"fig0_annotation_examples.{ext}",
-                    dpi=FIG_DPI if ext == "png" else None, bbox_inches="tight")
+        plt.savefig(OUT / f"fig0_annotation_examples.{ext}", dpi=FIG_DPI, bbox_inches="tight")
     plt.close()
     print("wrote fig0_annotation_examples")
 
@@ -193,7 +194,6 @@ def test_result():
     ax.set_ylim(0, 1.16)   # room for the two-line p labels
     ax.legend(fontsize=8, loc="lower right")
     ax.grid(alpha=.3, axis="y")
-    ax.set_title("Held-out test split: mean of three seeds, error bars are seed sd", fontsize=9)
     plt.tight_layout()
     for ext in ("png", "pdf"):
         plt.savefig(OUT / f"fig4_test_result.{ext}",

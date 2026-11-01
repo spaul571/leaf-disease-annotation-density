@@ -17,6 +17,8 @@ runs, and the executed copy (outputs included) is written back over the notebook
     qpy run_v13_chain.py              # every core run not yet done, then nb/eval_v13.ipynb
     qpy run_v13_chain.py --no-eval    # core training only
     qpy run_v13_chain.py --plan arms  # the four intervention arms (logs/v13_arms.log), no eval
+    qpy run_v13_chain.py --plan shakib  # the nine Shakib-review runs (logs/v13_shakib.log), no eval
+    qpy run_v13_chain.py --plan sub699  # no training: nb/eval_v13_not_v12valid.ipynb (Shakib S-3)
 """
 import argparse
 import asyncio
@@ -53,7 +55,19 @@ PLANS = {
     # so that the intervention table no longer rests on leaked v12 data.
     "arms": [("p2", 0, 640, 2), ("p2_wiou", 0, 640, 2), ("uadh", 0, 640, 2),
              ("baseline", 0, 1024, 2)],
+    # Shakib review, phase C (revision/PLAN_Shakib.md), approved 2026-11-01: P2 with its pretrained
+    # weights mapped by role (every earlier P2 run trained from random weights), then the
+    # Environment 1 arms retrained on v13. RT-DETR-l (batch 8, baked into its notebook) runs last.
+    "shakib": [("p2_rm", 0, 640, 2), ("p2_wiou_rm", 0, 640, 2), ("oversample", 0, 640, 2),
+               ("naive", 0, 640, 2), ("focal", 0, 640, 2), ("wiou", 0, 640, 2),
+               ("small", 0, 640, 2), ("medium", 0, 640, 2), ("rtdetr", 0, 640, 2)],
+    # Shakib S-3 (phase B): no training, only the 699-image evaluation notebook below.
+    "sub699": [],
+    # Shakib S-6 diagnostic: no training, the P2 runs scored on the training and validation splits.
+    "trainsplit": [],
 }
+EVAL_NB = {"core": "eval_v13.ipynb", "sub699": "eval_v13_not_v12valid.ipynb",   # run after a plan
+           "trainsplit": "v13_trainsplit_p2.ipynb"}
 
 
 def names(arm, seed, imgsz, workers):
@@ -215,14 +229,14 @@ def main(plan, with_eval):
                 return 2
             log(f"DONE {run} in {hours:.2f} h | {why}")
         if with_eval:
-            path = NB / "eval_v13.ipynb"
-            log(f"START eval_v13 ({path.name})")
+            path = NB / EVAL_NB[plan]
+            log(f"START {path.stem} ({path.name})")
             t0 = time.time()
             ok, why = execute(path)
             if not ok:
-                log(f"FAIL eval_v13: {why}")
+                log(f"FAIL {path.stem}: {why}")
                 return 3
-            log(f"DONE eval_v13 in {(time.time() - t0) / 60:.0f} min")
+            log(f"DONE {path.stem} in {(time.time() - t0) / 60:.0f} min")
         log("CHAIN COMPLETE")
         return 0
     finally:
@@ -238,4 +252,4 @@ if __name__ == "__main__":
     ap.add_argument("--no-eval", action="store_true", help="skip nb/eval_v13.ipynb at the end")
     a = ap.parse_args()
     # eval_v13.ipynb scores the core runs only; the arms are scored with the paper scripts
-    raise SystemExit(main(a.plan, a.plan == "core" and not a.no_eval))
+    raise SystemExit(main(a.plan, a.plan in EVAL_NB and not a.no_eval))

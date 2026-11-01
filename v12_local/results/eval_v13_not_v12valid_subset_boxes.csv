@@ -1,0 +1,24 @@
+,test_full,test_not_v12valid
+bean_angular_leaf_spot,6,5
+bean_bean_rust,7,7
+bean_healthy,4,4
+cauliflower_bacterial_spot_rot,17,13
+cauliflower_black_rot,6,5
+cauliflower_downy_mildew,16,16
+cauliflower_no_disease,19,15
+chilli_Curling-Leafs,3,3
+chilli_Healthy-Leafs,6,5
+chilli_Leaf Spot-Leafs,3,3
+chilli_Leveillula taurica-Leafs,3,3
+chilli_Mozaik Leaf,7,5
+cucumber_Antraknosa,183,145
+cucumber_Bacterial Wilt,371,290
+cucumber_Downy Mildew,75,61
+potato_healthy,61,53
+potato_blackleg,94,74
+potato_late_blight,99,81
+potato_early_blight,137,122
+tomato_bacterial_spot,150,121
+tomato_curl_virus,150,114
+tomato_two_spotted_spider_mite,150,117
+images,879,699

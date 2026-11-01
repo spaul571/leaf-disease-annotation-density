@@ -41,93 +41,65 @@ descending annotation density.
 ## Table 2
 
 The measured noise floor. Standard deviations are computed across three baseline replicates
-differing only in random seed. The significance bar for a difference between two single runs is
-1.96·sd·√2. Comparisons of means at three seeds per arm on the test split are made with Welch's
-t-test instead (Table 5), because the pooled standard deviation differs for each pair of arms
-and no single bar applies. The lesion group (B) is far noisier on the test split than on
-validation because the test split contains few lesion-class instances (Section 4.2). The last
-column is the v12 validation bar, against which the Environment 1 arms, run on v12 only, are
-judged (Tables 3b and 4b).
+differing only in random seed. The 95% bar for a single run against the three-seed mean is
+t(0.975, 2)·sd·√(1 + 1/3), and for two single runs t(0.975, 2)·sd·√2, with t(0.975, 2) = 4.303.
+Comparisons of means at three seeds per arm are made with Welch's t-test instead (Table 5). The
+lesion group (B) is far noisier on the test split than on validation because the test split
+contains few lesion-class instances (Section 4.2).
 
-| Metric | Validation sd | Validation bar | Test sd | Test bar (single run) | v12 validation bar |
+| Metric | Validation sd | Validation bar, single run vs mean | Validation bar, two single runs | Test sd | Test bar, two single runs |
 | --- | --- | --- | --- | --- | --- |
-| Class mean mAP@50 | 0.0068 | 0.0187 | 0.0048 | 0.0133 | 0.0040 |
-| Group A mAP@50 | 0.0065 | 0.0181 | 0.0095 | 0.0263 | 0.0047 |
-| Group B mAP@50 | 0.0080 | 0.0221 | 0.0264 | 0.0731 | 0.0085 |
-| Recall | 0.0138 | 0.0383 | 0.0085 | 0.0237 | 0.0057 |
-| mAP@50–95 | 0.0041 | 0.0113 | 0.0081 | 0.0225 | 0.0145 |
+| Class mean mAP@50 | 0.0068 | 0.0336 | 0.0411 | 0.0048 | 0.0291 |
+| Group A mAP@50 | 0.0065 | 0.0324 | 0.0397 | 0.0095 | 0.0577 |
+| Group B mAP@50 | 0.0080 | 0.0396 | 0.0485 | 0.0264 | 0.1605 |
+| Recall | 0.0138 | 0.0687 | 0.0841 | 0.0085 | 0.0520 |
+| mAP@50–95 | 0.0041 | 0.0203 | 0.0249 | 0.0081 | 0.0494 |
 
 
 ## Table 3
 
-All Environment 2 arms on the v13 validation split. `baseline` is the three-seed mean; every
-other arm is compared with it (Table 4). The Environment 1 arms were run on v12 only and are
-reported separately (Table 3b).
+Every arm on the v13 validation split. `baseline` is the three-seed mean; every other arm is
+compared with it (Table 4).
 
 | Arm | Seeds | Class mean mAP@50 | Group A | Group B | Recall | mAP@50–95 | A−B gap |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | baseline | 3 | 0.8650 | 0.9446 | 0.6945 | 0.8333 | 0.6928 | 0.2501 |
-| +P2 head | 1 | 0.7918 | 0.9172 | 0.5232 | 0.7681 | 0.6107 | 0.3940 |
-| +P2+WIoU | 1 | 0.7849 | 0.9149 | 0.5064 | 0.7374 | 0.6068 | 0.4085 |
+| s @640 | 1 | 0.8665 | 0.9428 | 0.7032 | 0.8392 | 0.6999 | 0.2396 |
+| m @640 | 1 | 0.8735 | 0.9497 | 0.7101 | 0.8551 | 0.7095 | 0.2397 |
+| RT-DETR-l | 1 | 0.8737 | 0.9471 | 0.7165 | 0.8389 | 0.6935 | 0.2306 |
+| +WIoU only | 1 | 0.8675 | 0.9557 | 0.6785 | 0.8332 | 0.6929 | 0.2773 |
+| +P2 head | 1 | 0.8704 | 0.9478 | 0.7048 | 0.8233 | 0.6918 | 0.2430 |
+| +P2+WIoU | 1 | 0.8755 | 0.9622 | 0.6896 | 0.8332 | 0.6963 | 0.2726 |
 | +UADH | 1 | 0.8540 | 0.9464 | 0.6558 | 0.8027 | 0.6888 | 0.2906 |
+| oversample | 1 | 0.8559 | 0.9397 | 0.6765 | 0.8293 | 0.6803 | 0.2632 |
+| naive over+under | 1 | 0.8660 | 0.9515 | 0.6828 | 0.8349 | 0.6891 | 0.2686 |
+| focal loss | 1 | 0.8450 | 0.9337 | 0.6550 | 0.8043 | 0.6769 | 0.2788 |
 | n @1024 | 1 | 0.8741 | 0.9501 | 0.7113 | 0.8377 | 0.6491 | 0.2389 |
 | s @1024 | 3 | 0.8745 | 0.9547 | 0.7028 | 0.8549 | 0.6561 | 0.2519 |
 
 
 ## Table 4
 
-Every Environment 2 effect against the three-seed baseline, on the validation split. Values are
-standardised effects: the change in that metric divided by its own significance bar from Table
-2, carrying the sign of the change. A magnitude of 2 or more is a real effect and is shown in
-bold, 1 to 2 is marginal, and below 1 is indistinguishable from seed noise. Absolute values for
-every arm are given in Table 3.
+Every effect against the three-seed baseline, on the validation split. Values are standardised
+effects: the change in that metric divided by its own 95% threshold, carrying the sign of the
+change. The threshold is the exact bar of Table 2 for a single-seed arm and the half-width of
+Welch's interval for a multi-seed arm. A magnitude of 1 or more lies beyond seed noise and is
+shown in bold. Absolute values for every arm are given in Table 3.
 
 | Arm | Class mean mAP@50 | Group A | Group B | Recall | mAP@50–95 |
 | --- | --- | --- | --- | --- | --- |
-| +P2 head | **-3.9** | -1.5 | **-7.8** | -1.7 | **-7.2** |
-| +P2+WIoU | **-4.3** | -1.6 | **-8.5** | **-2.5** | **-7.6** |
-| +UADH | -0.6 | +0.1 | -1.8 | -0.8 | -0.3 |
-| n @1024 | +0.5 | +0.3 | +0.8 | +0.1 | **-3.9** |
-| s @1024 | +0.5 | +0.6 | +0.4 | +0.6 | **-3.2** |
-
-
-## Table 3b
-
-Environment 1 arms, run on v12 only. Their validation split shares rotated and flipped twins
-with training (Section 3.2), so these results carry that caveat. `baseline (Environment 1)` is
-the single-seed reference for the 100-epoch arms and `n @60ep` for the 60-epoch size sweep.
-
-| Arm | Seeds | Class mean mAP@50 | Group A | Group B | Recall | mAP@50–95 | A−B gap |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline (Environment 1) | 1 | 0.8975 | 0.9680 | 0.7465 | 0.8697 | 0.7268 | 0.2215 |
-| oversample | 1 | 0.9023 | 0.9762 | 0.7439 | 0.8652 | 0.7398 | 0.2322 |
-| naive over+under | 1 | 0.8837 | 0.9645 | 0.7104 | 0.8496 | 0.7191 | 0.2541 |
-| focal loss | 1 | 0.8651 | 0.9487 | 0.6861 | 0.8088 | 0.7059 | 0.2626 |
-| +WIoU only | 1 | 0.8982 | 0.9664 | 0.7521 | 0.8527 | 0.7322 | 0.2142 |
-| n @60ep | 1 | 0.8809 | 0.9552 | 0.7216 | 0.8521 | 0.7083 | 0.2336 |
-| s @60ep | 1 | 0.9044 | 0.9715 | 0.7606 | 0.8620 | 0.7416 | 0.2109 |
-| m @60ep | 1 | 0.9066 | 0.9746 | 0.7609 | 0.8607 | 0.7501 | 0.2137 |
-| RT-DETR-l @30ep | 1 | 0.8891 | 0.9619 | 0.7332 | 0.8546 | 0.7303 | 0.2286 |
-
-
-## Table 4b
-
-Environment 1 effects against their matched references, judged against the v12 validation bar
-(Table 2, last column). Values are standardised effects: the change in that metric divided by
-its own significance bar from Table 2, carrying the sign of the change. A magnitude of 2 or
-more is a real effect and is shown in bold, 1 to 2 is marginal, and below 1 is
-indistinguishable from seed noise. Reference arms: (b) the single-seed baseline in Environment
-1, (c) the 60-epoch nano arm. Arms with no matched reference at their own epoch budget carry no
-row.
-
-| Arm | Class mean mAP@50 | Group A | Group B | Recall | mAP@50–95 |
-| --- | --- | --- | --- | --- | --- |
-| +WIoU only (b) | +0.2 | -0.3 | +0.7 | **-3.0** | +0.4 |
-| focal loss (b) | **-8.0** | **-4.1** | **-7.1** | **-10.6** | -1.4 |
-| m @60ep (c) | **+6.4** | **+4.1** | **+4.6** | +1.5 | **+2.9** |
-| naive over+under (b) | **-3.4** | -0.7 | **-4.2** | **-3.5** | -0.5 |
-| oversample (b) | +1.2 | +1.7 | -0.3 | -0.8 | +0.9 |
-| s @60ep (c) | **+5.8** | **+3.4** | **+4.6** | +1.7 | **+2.3** |
+| +P2 head | +0.2 | +0.1 | +0.3 | -0.1 | -0.0 |
+| +P2+WIoU | +0.3 | +0.5 | -0.1 | -0.0 | +0.2 |
+| +UADH | -0.3 | +0.1 | -1.0 | -0.4 | -0.2 |
+| +WIoU only | +0.1 | +0.3 | -0.4 | -0.0 | +0.0 |
+| RT-DETR-l | +0.3 | +0.1 | +0.6 | +0.1 | +0.0 |
+| focal loss | -0.6 | -0.3 | -1.0 | -0.4 | -0.8 |
+| m @640 | +0.3 | +0.2 | +0.4 | +0.3 | +0.8 |
+| n @1024 | +0.3 | +0.2 | +0.4 | +0.1 | **-2.2** |
+| naive over+under | +0.0 | +0.2 | -0.3 | +0.0 | -0.2 |
+| oversample | -0.3 | -0.2 | -0.5 | -0.1 | -0.6 |
+| s @1024 | +0.7 | +0.7 | +0.5 | +0.7 | **-4.3** |
+| s @640 | +0.0 | -0.1 | +0.2 | +0.1 | +0.3 |
 
 
 ## Table 5
@@ -215,8 +187,8 @@ published), 2.34 h.
 
 | Metric | 8 workers | 2 workers | Difference | 95% bar | Ratio | Welch p |
 | --- | --- | --- | --- | --- | --- | --- |
-| Class mean mAP@50 | 0.8990 ± 0.0015 | 0.8982 ± 0.0038 | -0.0007 | 0.0046 | 0.16 | 0.777 |
-| Group A | 0.9677 ± 0.0017 | 0.9661 ± 0.0028 | -0.0017 | 0.0037 | 0.45 | 0.436 |
-| Group B | 0.7516 ± 0.0031 | 0.7528 ± 0.0099 | +0.0012 | 0.0117 | 0.10 | 0.854 |
-| Recall | 0.8576 ± 0.0021 | 0.8623 ± 0.0174 | +0.0047 | 0.0198 | 0.24 | 0.685 |
-| mAP@50–95 | 0.7355 ± 0.0052 | 0.7292 ± 0.0045 | -0.0063 | 0.0078 | 0.80 | 0.192 |
+| Class mean mAP@50 | 0.8990 ± 0.0015 | 0.8982 ± 0.0038 | -0.0007 | 0.0081 | 0.09 | 0.777 |
+| Group A | 0.9677 ± 0.0017 | 0.9661 ± 0.0028 | -0.0017 | 0.0056 | 0.29 | 0.436 |
+| Group B | 0.7516 ± 0.0031 | 0.7528 ± 0.0099 | +0.0012 | 0.0222 | 0.06 | 0.854 |
+| Recall | 0.8576 ± 0.0021 | 0.8623 ± 0.0174 | +0.0047 | 0.0424 | 0.11 | 0.685 |
+| mAP@50–95 | 0.7355 ± 0.0052 | 0.7292 ± 0.0045 | -0.0063 | 0.0111 | 0.56 | 0.192 |

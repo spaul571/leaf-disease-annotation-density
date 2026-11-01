@@ -60,15 +60,30 @@ DATASETS = {
         name="v13", root=DS_ROOT / "merged-dataset-v13", dist=JA / "v13_distribution.csv",
         protocol=RES / "v13_protocol_analysis.csv", out=HERE / "paper", tag="v13_",
         test_eval=RES / "eval_v13_eval.json",
-        val_arms={   # every v13 run uses 2 dataloader workers (TWIN_LEAKAGE_PLAN.md, step 3)
+        # Every v13 run uses 2 dataloader workers (TWIN_LEAKAGE_PLAN.md, step 3). Since the Shakib
+        # revision (revision/PLAN_Shakib.md, 2026-11-01) every intervention is a v13 run: the
+        # Environment 1 arms were retrained here (S-1), and P2 is the run whose pretrained weights
+        # were mapped by role (S-6). The earlier P2 runs trained from random weights; they are kept
+        # in P2_FROM_SCRATCH for the tooling section only, never in the intervention tables.
+        val_arms={
             "baseline": [_pc(f"v13_baseline_100ep_s{s}_W2") for s in (0, 1, 2)],
-            "+P2 head": [_pc("v13_p2_100ep_s0_W2")],
-            "+P2+WIoU": [_pc("v13_p2_wiou_100ep_s0_W2")],
+            "s @640": [_pc("v13_small_100ep_s0_W2")],
+            "m @640": [_pc("v13_medium_100ep_s0_W2")],
+            "RT-DETR-l": [_pc("v13_rtdetr_100ep_s0_W2")],
+            "+WIoU only": [_pc("v13_wiou_100ep_s0_W2")],
+            "+P2 head": [_pc("v13_p2_rm_100ep_s0_W2")],
+            "+P2+WIoU": [_pc("v13_p2_wiou_rm_100ep_s0_W2")],
             "+UADH": [_pc("v13_uadh_100ep_s0_W2")],
+            "oversample": [_pc("v13_oversample_100ep_s0_W2")],
+            "naive over+under": [_pc("v13_naive_100ep_s0_W2")],
+            "focal loss": [_pc("v13_focal_100ep_s0_W2")],
             "n @1024": [_pc("v13_baseline_100ep_s0_1024_W2")],
             "s @1024": [_pc(f"v13_small_100ep_s{s}_1024_W2") for s in (0, 1, 2)],
         }),
 }
+
+# The first v13 P2 runs: YOLO(<yaml>).train() rebuilt them with random weights (Shakib S-6).
+P2_FROM_SCRATCH = {"+P2 head": _pc("v13_p2_100ep_s0_W2"), "+P2+WIoU": _pc("v13_p2_wiou_100ep_s0_W2")}
 
 # Environment 1 (Kaggle) arms on v12: arm -> (per-class CSV, reference arm)
 ENV1 = {
@@ -125,10 +140,25 @@ def val_per_seed(D, arm="baseline"):
     return S
 
 
-def noise_floor(D):
-    """Single-run significance bar per metric: 1.96 * sqrt(2) * sd over the baseline seeds."""
+def bar(sd, n_sd, n_a=1, n_b=1):
+    """Exact 95% bar for a difference of two means of n_a and n_b runs, with sd from n_sd seeds.
+
+    t(0.975, n_sd - 1) * sd * sqrt(1/n_a + 1/n_b). A single run against an n-seed mean is
+    (1, n); two single runs are (1, 1). Replaced 1.96 * sd * sqrt(2) on 2026-11-01 (Shakib S-4):
+    with sd from three seeds the z multiplier understated the bar by more than half.
+    """
+    return float(stats.t.ppf(0.975, n_sd - 1) * sd * np.sqrt(1 / n_a + 1 / n_b))
+
+
+def noise_floor(D, vs="mean"):
+    """95% bar per metric from the baseline seeds on validation.
+
+    vs="mean": a single run against the baseline mean, as every single-seed variant is judged;
+    vs="single": two single runs.
+    """
     S = val_per_seed(D)
-    return {m: float(1.96 * np.sqrt(2) * S[m].std(ddof=1)) for m in S.columns}
+    n = len(S)
+    return {m: bar(S[m].std(ddof=1), n, 1, n if vs == "mean" else 1) for m in S.columns}
 
 
 def test_per_seed(D, subset="test_full"):
@@ -149,8 +179,9 @@ def test_per_seed(D, subset="test_full"):
 
 
 def test_bar(T):
-    """Single-run bar per metric from the baseline seeds on the test split."""
-    return {m: float(1.96 * np.sqrt(2) * T["baseline"][m].std(ddof=1)) for m in METRICS}
+    """95% bar per metric for two single runs on the test split, from the baseline seeds."""
+    n = len(T["baseline"])
+    return {m: bar(T["baseline"][m].std(ddof=1), n) for m in METRICS}
 
 
 def welch_ci(a, b, alpha=0.05):

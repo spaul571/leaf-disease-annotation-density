@@ -1,23 +1,23 @@
-class,group,baseline,+P2 head,+P2+WIoU,+UADH,n @1024,s @1024
-chilli_Leveillula taurica-Leafs,A_whole_leaf,0.98,0.913,0.924,0.995,0.995,0.995
-tomato_bacterial_spot,A_whole_leaf,0.994,0.994,0.994,0.995,0.994,0.995
-potato_healthy,A_whole_leaf,0.963,0.966,0.965,0.975,0.971,0.972
-cucumber_Downy Mildew,A_whole_leaf,0.762,0.623,0.675,0.727,0.735,0.729
-chilli_Mozaik Leaf,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995
-tomato_curl_virus,A_whole_leaf,0.995,0.995,0.995,0.994,0.994,0.995
-chilli_Leaf Spot-Leafs,A_whole_leaf,0.829,0.995,0.825,0.895,0.845,0.945
-chilli_Healthy-Leafs,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995
-tomato_two_spotted_spider_mite,A_whole_leaf,0.994,0.994,0.994,0.994,0.989,0.994
-cauliflower_no_disease,A_whole_leaf,0.991,0.975,0.989,0.975,0.994,0.993
-cauliflower_downy_mildew,A_whole_leaf,0.934,0.86,0.833,0.903,0.913,0.943
-cauliflower_black_rot,A_whole_leaf,0.837,0.545,0.641,0.779,0.877,0.878
-cauliflower_bacterial_spot_rot,A_whole_leaf,0.97,0.987,0.981,0.985,0.995,0.995
-bean_healthy,A_whole_leaf,0.995,0.984,0.973,0.995,0.995,0.995
-chilli_Curling-Leafs,A_whole_leaf,0.937,0.937,0.944,0.995,0.964,0.902
-cucumber_Antraknosa,B_lesion,0.705,0.567,0.592,0.662,0.686,0.7
-cucumber_Bacterial Wilt,B_lesion,0.726,0.576,0.598,0.702,0.705,0.715
-potato_blackleg,B_lesion,0.317,0.119,0.106,0.242,0.399,0.365
-potato_late_blight,B_lesion,0.647,0.558,0.536,0.613,0.647,0.645
-potato_early_blight,B_lesion,0.666,0.501,0.455,0.665,0.707,0.704
-bean_bean_rust,B_lesion,0.925,0.748,0.72,0.874,0.943,0.94
-bean_angular_leaf_spot,B_lesion,0.875,0.594,0.538,0.832,0.892,0.851
+class,group,baseline,s @640,m @640,RT-DETR-l,+WIoU only,+P2 head,+P2+WIoU,+UADH,oversample,naive over+under,focal loss,n @1024,s @1024
+chilli_Leveillula taurica-Leafs,A_whole_leaf,0.98,0.995,0.995,0.995,0.995,0.995,0.972,0.995,0.995,0.995,0.995,0.995,0.995
+tomato_bacterial_spot,A_whole_leaf,0.994,0.995,0.994,0.995,0.994,0.994,0.995,0.995,0.995,0.99,0.994,0.994,0.995
+potato_healthy,A_whole_leaf,0.963,0.963,0.977,0.968,0.963,0.968,0.976,0.975,0.97,0.974,0.967,0.971,0.972
+cucumber_Downy Mildew,A_whole_leaf,0.762,0.774,0.782,0.764,0.769,0.753,0.777,0.727,0.758,0.769,0.735,0.735,0.729
+chilli_Mozaik Leaf,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995
+tomato_curl_virus,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.994,0.995,0.992,0.995,0.994,0.995
+chilli_Leaf Spot-Leafs,A_whole_leaf,0.829,0.796,0.796,0.945,0.945,0.895,0.995,0.895,0.845,0.995,0.895,0.845,0.945
+chilli_Healthy-Leafs,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995
+tomato_two_spotted_spider_mite,A_whole_leaf,0.994,0.994,0.994,0.991,0.995,0.994,0.993,0.994,0.995,0.994,0.994,0.989,0.994
+cauliflower_no_disease,A_whole_leaf,0.991,0.975,0.991,0.995,0.995,0.995,0.995,0.975,0.995,0.995,0.994,0.994,0.993
+cauliflower_downy_mildew,A_whole_leaf,0.934,0.942,0.925,0.95,0.923,0.929,0.903,0.903,0.884,0.883,0.881,0.913,0.943
+cauliflower_black_rot,A_whole_leaf,0.837,0.911,0.902,0.692,0.821,0.837,0.89,0.779,0.721,0.85,0.746,0.877,0.878
+cauliflower_bacterial_spot_rot,A_whole_leaf,0.97,0.962,0.995,0.936,0.961,0.991,0.961,0.985,0.963,0.995,0.954,0.995,0.995
+bean_healthy,A_whole_leaf,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995,0.995
+chilli_Curling-Leafs,A_whole_leaf,0.937,0.855,0.916,0.995,0.995,0.885,0.995,0.995,0.995,0.855,0.87,0.964,0.902
+cucumber_Antraknosa,B_lesion,0.705,0.716,0.722,0.707,0.712,0.706,0.718,0.662,0.701,0.673,0.636,0.686,0.7
+cucumber_Bacterial Wilt,B_lesion,0.726,0.734,0.731,0.719,0.731,0.727,0.745,0.702,0.719,0.716,0.697,0.705,0.715
+potato_blackleg,B_lesion,0.317,0.333,0.372,0.374,0.279,0.302,0.341,0.242,0.364,0.306,0.297,0.399,0.365
+potato_late_blight,B_lesion,0.647,0.651,0.621,0.648,0.638,0.659,0.655,0.613,0.632,0.628,0.588,0.647,0.645
+potato_early_blight,B_lesion,0.666,0.694,0.711,0.718,0.703,0.683,0.666,0.665,0.719,0.709,0.633,0.707,0.704
+bean_bean_rust,B_lesion,0.925,0.873,0.916,0.899,0.941,0.937,0.948,0.874,0.852,0.939,0.889,0.943,0.94
+bean_angular_leaf_spot,B_lesion,0.875,0.921,0.898,0.951,0.745,0.919,0.754,0.832,0.75,0.809,0.846,0.892,0.851

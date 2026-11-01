@@ -1,0 +1,23 @@
+class,group,train_imgs,valid_imgs,test_imgs,train_boxes,valid_boxes,test_boxes
+cucumber_Downy Mildew,A_whole_leaf,381,109,54,524,143,75
+cauliflower_black_rot,A_whole_leaf,36,10,5,44,14,6
+potato_healthy,A_whole_leaf,321,92,46,364,96,61
+cauliflower_downy_mildew,A_whole_leaf,111,32,15,116,39,16
+cauliflower_no_disease,A_whole_leaf,128,37,18,135,38,19
+bean_healthy,A_whole_leaf,31,9,4,32,9,4
+tomato_curl_virus,A_whole_leaf,1050,300,150,1063,301,150
+cauliflower_bacterial_spot_rot,A_whole_leaf,113,32,17,113,32,17
+chilli_Curling-Leafs,A_whole_leaf,23,7,3,23,7,3
+chilli_Healthy-Leafs,A_whole_leaf,44,13,6,44,13,6
+chilli_Leaf Spot-Leafs,A_whole_leaf,15,4,3,15,4,3
+chilli_Leveillula taurica-Leafs,A_whole_leaf,20,6,3,20,6,3
+chilli_Mozaik Leaf,A_whole_leaf,52,15,7,52,15,7
+tomato_bacterial_spot,A_whole_leaf,1048,299,150,1050,299,150
+tomato_two_spotted_spider_mite,A_whole_leaf,1048,299,150,1048,299,150
+potato_blackleg,B_lesion,96,27,16,714,170,94
+cucumber_Bacterial Wilt,B_lesion,512,146,74,2466,713,371
+potato_early_blight,B_lesion,181,52,25,765,212,137
+cucumber_Antraknosa,B_lesion,552,158,79,1213,375,183
+potato_late_blight,B_lesion,347,98,50,665,172,99
+bean_angular_leaf_spot,B_lesion,30,9,4,55,18,6
+bean_bean_rust,B_lesion,32,9,5,53,18,7
